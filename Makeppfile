@@ -21,4 +21,6 @@ target/objects/Makeppfile.auto: FORCE scripts/generateMakeppfileForObjects.sh sc
 $(phony FORCE):
     @true
 
+global CXXFLAGS+= --std=c++11
+
 load_makefile target/objects/Makeppfile

@@ -1,0 +1,49 @@
+#ifndef TYRANT_CACHE_CACHE_DISKBACKEDCACHE_HPP
+    #define TYRANT_CACHE_CACHE_DISKBACKEDCACHE_HPP
+
+    #include "simulatorCache.h++"
+    #include "../sql/sqliteWrapper.h++"
+    //#include <cstdlib>
+
+    namespace C = TyrantCache::Core;
+    namespace S = TyrantCache::SQL;
+    namespace TyrantCache {
+        namespace Cache {    
+
+            class DiskBackedCache : public SimulatorCache {
+                private:
+                    bool ignoreCoreVersion;
+                    bool ignoreXMLVersion;
+                    bool dontReadFromCache;
+                    S::SQLiteWrapper database;
+                    
+                    S::PreparedStatement * insertStatement;
+                    S::PreparedStatement * selectStatement;
+                    S::PreparedStatement * selectAllAttackerStatement;
+                    S::PreparedStatement * selectAllDefenderStatement;
+
+                    unsigned int randomData;
+                
+                    C::SimulationResult loadCache(C::SimulationTask const & task);
+                    void addToCache(C::SimulationTask const & task, C::SimulationResult const & result);
+                public:
+                    typedef std::shared_ptr<DiskBackedCache> Ptr;
+                
+                public:
+                    DiskBackedCache(SimulatorCore::Ptr & delegate);
+                    virtual ~DiskBackedCache();
+                    void setDontReadCache(bool);
+
+                    virtual C::SimulationResult simulate(C::SimulationTask const &);
+                    virtual C::SimulationResult simulate(C::SimulationTask const &, unsigned long numberOfNewSamples);
+
+                    virtual std::map<std::string, C::SimulationResult>
+                    getDecks(C::SimulationTask, bool wildCardAttacker) const;
+                    
+                    virtual void abort();                    
+            };
+        }
+    }
+
+#endif
+

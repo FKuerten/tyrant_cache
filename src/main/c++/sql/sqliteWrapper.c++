@@ -4,8 +4,8 @@
 #include <sstream>
 #include <boost/lexical_cast.hpp>
 
-namespace IterateDecks {
-    namespace Cache {
+namespace TyrantCache {
+    namespace SQL {
 
         unsigned long
         SQLResult::getULong(std::string const & column) const
