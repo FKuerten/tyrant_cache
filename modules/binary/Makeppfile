@@ -1,7 +1,7 @@
 # Configuration section
 MODULE_NAME=
 DEPENDENCIES=core basics
-LIBS:=-lboost_program_options -lsqlite3
+LIBS:=-lboost_program_options -lsqlite3 -lboost_regex
 
 include scripts/objectsMakeppfile.mk
 include scripts/version.mk

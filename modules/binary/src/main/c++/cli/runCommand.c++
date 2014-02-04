@@ -29,22 +29,24 @@ namespace TyrantCache {
 
         int RunCommand::execute() {
             C::SimulationResult r = this->simulator->simulate(this->task);
+            std::cout << "                                 " << std::setw(11) << "Count"
+                      << " " << std::setw(5) << "avg." << std::endl;
             std::cout << "Games played:                    " << std::setw(11) << r.numberOfGames
                       << std::endl;
             std::cout << "Games won:                       " << std::setw(11) << r.gamesWon
-                      << " " << r.getWinRate() << std::endl;
+                      << " " << std::setw(5) << r.getWinRate() << std::endl;
             std::cout << "Games lost:                      " << std::setw(11) << r.gamesLost
-                      << " " << r.getLossRate() << std::endl;
+                      << " " << std::setw(5) << r.getLossRate() << std::endl;
             std::cout << "Games stalled:                   " << std::setw(11) << r.gamesStalled
-                      << " " << r.getStallRate() << std::endl;
+                      << " " << std::setw(5) << r.getStallRate() << std::endl;
             std::cout << "Points for attacker on manual: " << std::setw(13) << r.pointsAttacker
-                      << " " << r.getManualANPAttacker() << std::endl;
+                      << " " << std::setw(5) << r.getManualANPAttacker() << std::endl;
             std::cout << "Points for attacker on auto:   " << std::setw(13) << r.pointsAttackerAuto
-                      << " " << r.getAutoANPAttacker() << std::endl;
+                      << " " << std::setw(5) << r.getAutoANPAttacker() << std::endl;
             std::cout << "Points for defender on manual: " << std::setw(13) << r.pointsDefender
-                      << " " << r.getManualANPDefender() << std::endl;
+                      << " " << std::setw(5) << r.getManualANPDefender() << std::endl;
             std::cout << "Points for defender on auto:   " << std::setw(13) << r.pointsDefenderAuto
-                      << " " << r.getAutoANPDefender() << std::endl;
+                      << " " << std::setw(5) << r.getAutoANPDefender() << std::endl;
             return 0;
         }
 

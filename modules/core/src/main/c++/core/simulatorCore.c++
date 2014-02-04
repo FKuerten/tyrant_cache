@@ -21,7 +21,9 @@ namespace TyrantCache {
             MD5_Init(&md5Context);
 
             std::ifstream file(fileName);
-            assertX(file.is_open());
+            if(! file.is_open()) {
+                throw RuntimeError("file not found: " + fileName);
+            }
             while(!(file.eof())) {
                 //std::streamsize n = file.readsome(buffer, sizeof(buffer));
                 file.read(buffer, sizeof(buffer));
