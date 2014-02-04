@@ -6,6 +6,7 @@
 
 #include <errorHandling/exceptions.h++>
 #include "runCommand.h++"
+#include "deckParser.h++"
 
 namespace po = boost::program_options;
 namespace TyrantCache {
@@ -100,10 +101,10 @@ namespace TyrantCache {
 
                 command->task.minimalNumberOfGames = numberOfIterations;
                 if (!attacker.empty()) {
-                    command->task.attacker = attacker;
+                    command->task.attacker = parseDeck(attacker);
                 }
                 if (!defender.empty()) {
-                    command->task.defender = defender;
+                    command->task.defender = parseDeck(defender);
                 }
                 command->task.surge = surge;
                 command->task.battleGround = battleGroundId;

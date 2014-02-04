@@ -1,6 +1,9 @@
 #ifndef TYRANT_CACHE_CACHE_SIMULATORCACHE_HPP
     #define TYRANT_CACHE_CACHE_SIMULATORCACHE_HPP
 
+    #include <map>
+    #include <string>
+    #include <core/simulationResult.h++>
     #include <core/simulatorCore.h++>
     // For std::shared_ptr
     #include <memory>
@@ -27,7 +30,7 @@
                     virtual C::SimulationResult simulate(C::SimulationTask const &) = 0;
                     virtual C::SimulationResult simulate(C::SimulationTask const &, unsigned long numberOfNewSamples) = 0;
 
-                    virtual std::map<C::DeckDescription, C::SimulationResult>
+                    virtual std::map<std::string, C::SimulationResult>
                     getDecks(C::SimulationTask const task, bool wildCardAttacker) const = 0;
 
                     virtual void abort() = 0;

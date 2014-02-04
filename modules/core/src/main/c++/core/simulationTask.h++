@@ -1,13 +1,12 @@
 #ifndef TYRANT_CACHE_CORE_SIMULATIONTASK_HPP
     #define TYRANT_CACHE_CORE_SIMULATIONTASK_HPP
 
-    // Deck descriptions are strigns
-    #include <string>
+    #include "deckTemplate.h++"
         
     namespace TyrantCache {
         namespace Core {
 
-            typedef std::string DeckDescription;
+            typedef DeckTemplate::Ptr DeckDescription;
             typedef signed int BattlegroundId;
             typedef signed int AchievementId;
                         

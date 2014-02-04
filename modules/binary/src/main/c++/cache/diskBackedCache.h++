@@ -1,9 +1,11 @@
 #ifndef TYRANT_CACHE_CACHE_DISKBACKEDCACHE_HPP
     #define TYRANT_CACHE_CACHE_DISKBACKEDCACHE_HPP
 
+    #include <map>
+    #include <string>
+    #include <core/simulationResult.h++>    
     #include "simulatorCache.h++"
     #include "../sql/sqliteWrapper.h++"
-    //#include <cstdlib>
 
     namespace C = TyrantCache::Core;
     namespace S = TyrantCache::SQL;

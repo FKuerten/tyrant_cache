@@ -3,3 +3,5 @@ load_makefile modules/binary
 target/tyrantCache: modules/binary/target/tyrantCache
     @mkdir -p target
     cp ${input} ${output}
+
+$(phony compile): target/tyrantCache
