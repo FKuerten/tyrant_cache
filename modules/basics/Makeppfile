@@ -1,0 +1,20 @@
+include scripts/objectsMakeppfile.mk
+include scripts/version.mk
+
+$(phony FORCE):
+    @true
+
+global CXXFLAGS:=${CXXFLAGS} --std=c++11 -I${CURDIR}/target/generated
+LIBS:=
+ARFLAGS:=crvs
+
+load_makefile target/objects/Makeppfile
+
+OBJECTS:=$(shell ./scripts/findObjects.sh)
+MODULE_NAME=basics
+MODULE_STATIC_LIBRARY:=lib${MODULE_NAME}.a
+MODULE_SHARED_LIBRARY:=lib${MODULE_NAME}.so
+
+target/${MODULE_STATIC_LIBRARY}: ${OBJECTS}
+	@if [ -e ${output} ]; then rm ${output}; echo "rm ${output}"; fi
+	${AR} ${ARFLAGS} ${output} ${OBJECTS}
