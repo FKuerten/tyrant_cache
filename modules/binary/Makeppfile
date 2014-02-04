@@ -4,12 +4,11 @@ include scripts/version.mk
 $(phony FORCE):
     @true
 
-global CXXFLAGS+= --std=c++11 -I${ROOT}/target/generated
+global CXXFLAGS:=${CXXFLAGS} --std=c++11 -I${CURRENT}/target/generated
 LIBS:=-lboost_program_options -lcrypto -lsqlite3
 
 load_makefile target/objects/Makeppfile
 
-makepp_percent_subdirs:=1
 OBJECTS:=$(shell ./scripts/findObjects.sh)
 
 target/tyrantCache: $(infer_objects target/objects/cli/main.o++, ${OBJECTS})
