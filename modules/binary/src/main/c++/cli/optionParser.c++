@@ -23,8 +23,8 @@ namespace TyrantCache {
                 bool surge;
                 int battleGroundId;
                 int achievementId;
-                bool cacheRead = true;
-                bool cacheWrite = true;
+                bool cacheRead;
+                bool cacheWrite;
                 bool useRaidRules;
 
                 po::options_description desc("Allowed options");
@@ -58,12 +58,20 @@ namespace TyrantCache {
                     ,"id of the achievement to check"
                     )                   
                     ("cache-read"
-                    ,po::bool_switch(&cacheRead)
+                    ,po::bool_switch(&cacheRead)->default_value(true)
                     ,"read from the cache"
                     )
                     ("no-cache-read"
                     ,po::value<bool>(&cacheRead)->implicit_value(false)->zero_tokens()
                     ,"do not read from the cache"
+                    )
+                    ("cache-write"
+                    ,po::bool_switch(&cacheWrite)->default_value(true)
+                    ,"write to the cache"
+                    )
+                    ("no-cache-write"
+                    ,po::value<bool>(&cacheWrite)->implicit_value(false)->zero_tokens()
+                    ,"do not write to the cache"
                     )
                     ("raid-rules"
                     ,po::bool_switch(&useRaidRules)->default_value(false)
@@ -83,6 +91,9 @@ namespace TyrantCache {
                 }
 
                 po::notify(vm);
+
+                std::clog << "cache-read:  " << cacheRead << std::endl;
+                std::clog << "cache-write: " << cacheWrite << std::endl;
                 
                 // check some argument relation
                 if (attacker.empty()) {
