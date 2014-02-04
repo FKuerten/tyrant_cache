@@ -1,7 +1,7 @@
 #ifndef TYRANT_CACHE_CLI_RUNCOMMAND_HPP
     #define TYRANT_CACHE_CLI_RUNCOMMAND_HPP
 
-    #include "../core/simulatorCore.h++"
+    #include <core/simulatorCore.h++>
     #include "../cache/diskBackedCache.h++"
     #include "commands.h++"
     #include <memory>

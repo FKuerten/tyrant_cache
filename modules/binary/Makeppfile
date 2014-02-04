@@ -1,7 +1,7 @@
 # Configuration section
 MODULE_NAME=
-DEPENDENCIES=basics
-LIBS:=-lboost_program_options -lcrypto -lsqlite3
+DEPENDENCIES=core basics
+LIBS:=-lboost_program_options -lsqlite3
 
 include scripts/objectsMakeppfile.mk
 include scripts/version.mk
@@ -14,14 +14,26 @@ global CPPFLAGS:=${CPPFLAGS} -I${CURDIR}/target/generated
 
 
 CPPFLAGS+=-I${CURDIR}/../${DEPENDENCIES}/src/main/c++/
-LIBS+=-l${DEPENDENCIES}
+LIBS+=$(addprefix -l,${DEPENDENCIES})
 LDFLAGS+=-L${CURDIR}/../${DEPENDENCIES}/target/
-OWNLIBS=$(shell ./scripts/expandModules.sh ${DEPENDENCIES})
+OWN_LIB_FILES=$(shell ./scripts/expandModules.sh ${DEPENDENCIES})
+iftrue ${DEPENDENCIES}
+	DEPENDENCY_FILES:=${CURDIR}/../${DEPENDENCIES}/target/dependencies
+	DEPLIBS=$(shell cat ${DEPENDENCY_FILES})
+else
+	DEPENDENCY_FILES:=
+	DEPLIBS:=
+endif
 
 load_makefile target/objects/Makeppfile
 load_makefile ${CURDIR}/../${DEPENDENCIES}
 
 OBJECTS:=$(shell ./scripts/findObjects.sh)
+ALLLIBS=${LIBS} ${DEPLIBS}
 
-target/tyrantCache: $(infer_objects target/objects/cli/main.o++, ${OBJECTS}) ${OWNLIBS}
-    ${CXX} ${LDFLAGS} ${LIBS} ${inputs} -o ${output}
+target/tyrantCache: $(infer_objects target/objects/cli/main.o++, ${OBJECTS}) ${OWN_LIB_FILES} ${DEPENDENCY_FILES}
+	@if [ -e ${output} ]; then rm ${output}; echo "rm ${output}"; fi
+	${CXX} ${LDFLAGS} \	       
+	       $(infer_objects target/objects/cli/main.o++, ${OBJECTS}) \
+	       ${ALLLIBS} \
+	       -o ${output}

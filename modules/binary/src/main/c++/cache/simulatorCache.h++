@@ -1,7 +1,7 @@
 #ifndef TYRANT_CACHE_CACHE_SIMULATORCACHE_HPP
     #define TYRANT_CACHE_CACHE_SIMULATORCACHE_HPP
 
-    #include "../core/simulatorCore.h++"
+    #include <core/simulatorCore.h++>
     // For std::shared_ptr
     #include <memory>
 

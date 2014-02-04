@@ -1,6 +1,6 @@
 #include "commands.h++"
 #include <version.h++>
-#include "../core/simulatorCore.h++"
+#include <core/simulatorCore.h++>
 #include <errorHandling/assert.h++>
 
 namespace C = TyrantCache::Core;
