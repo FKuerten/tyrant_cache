@@ -80,4 +80,5 @@ namespace TyrantCache {
         {
             return static_cast<double>(this->pointsDefender) / static_cast<double>(this->numberOfGames);
         }
-
+    }
+}

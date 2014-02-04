@@ -4,6 +4,7 @@
     // for std::shared_ptr
     #include <memory>
     #include <boost/program_options.hpp>
+    #include "configuration.h++"
 
     namespace TyrantCache {
         namespace CLI {
@@ -11,13 +12,15 @@
             class Command {
                 private:
                     bool aborted;
+                    
                 protected:
                     bool isAborted();
+                    Configuration configuration;
 
                 public:
                     typedef std::shared_ptr<Command> Ptr;
                 public:
-                    Command();
+                    Command(Configuration configuration);
                     virtual ~Command();
                     virtual int execute() = 0;
                     virtual void abort();
@@ -25,11 +28,13 @@
 
             class VersionCommand : public Command {
                 public:
+                    VersionCommand(Configuration configuration);
                     int execute();
             };
 
             class CoreVersionCommand : public Command {
                 public:
+                    CoreVersionCommand(Configuration configuration);
                     int execute();
             };
 
@@ -37,7 +42,7 @@
                 private:
                     boost::program_options::options_description desc;
                 public:
-                    HelpCommand(boost::program_options::options_description const & desc);
+                    HelpCommand(Configuration configuration, boost::program_options::options_description const & desc);
                     int execute();
             };
 

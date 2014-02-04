@@ -1,6 +1,6 @@
 #include "runCommand.h++"
 
-#include "../configuration/configuration.h++"
+#include "configuration.h++"
 #include "../cache/diskBackedCache.h++"
 #include <iomanip>
 /*
@@ -16,11 +16,12 @@ namespace Cache = TyrantCache::Cache;
 namespace TyrantCache {
     namespace CLI {
 
-        RunCommand::RunCommand(int verbosity
+        RunCommand::RunCommand(Configuration configuration
                               )
+        : Command(configuration)
         {
             // the core
-            C::SimulatorCore::Ptr simulator = TyrantCache::Configuration::Configuration::constructCore();
+            C::SimulatorCore::Ptr simulator = configuration.constructCore();
             // the cache
             Cache::DiskBackedCache::Ptr cache = Cache::DiskBackedCache::Ptr(
                 new Cache::DiskBackedCache(simulator)
@@ -58,6 +59,18 @@ namespace TyrantCache {
         RunCommand::abort()
         {
             this->simulator->abort();
+        }
+
+        void
+        RunCommand::setCacheRead(bool cacheRead)
+        {
+            this->simulator->setReadFromCache(cacheRead);
+        }
+
+        void
+        RunCommand::setCacheWrite(bool cacheWrite)
+        {
+            this->simulator->setWriteToCache(cacheWrite);
         }
 
     }

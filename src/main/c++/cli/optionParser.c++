@@ -51,6 +51,7 @@ namespace TyrantCache {
                                    )
         {
             try {
+                Configuration configuration;
                 unsigned int numberOfIterations;
                 std::string attacker, defender;
                 bool surge;
@@ -109,11 +110,11 @@ namespace TyrantCache {
                 po::store(po::parse_command_line(argc, argv, desc), vm);
 
                 if (vm.count("help")) {
-                    return Command::Ptr(new HelpCommand(desc));
+                    return Command::Ptr(new HelpCommand(configuration, desc));
                 } else if (vm.count("core-version")) {
-                    return Command::Ptr(new CoreVersionCommand());
+                    return Command::Ptr(new CoreVersionCommand(configuration));
                 } else if (vm.count("version")) {
-                    return Command::Ptr(new VersionCommand());
+                    return Command::Ptr(new VersionCommand(configuration));
                 }
 
                 po::notify(vm);
@@ -128,9 +129,7 @@ namespace TyrantCache {
                 verbosity = vm.count("verbose");
 
                 RunCommand::Ptr command = RunCommand::Ptr(
-                    new RunCommand
-                        (verbosity
-                        )                                    
+                    new RunCommand(configuration)                                    
                 );
                 command->setCacheRead (cacheRead);
                 command->setCacheWrite(cacheWrite);

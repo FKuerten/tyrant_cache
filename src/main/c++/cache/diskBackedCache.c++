@@ -11,7 +11,8 @@ namespace TyrantCache {
         : SimulatorCache(delegate)
         , ignoreCoreVersion(true)
         , ignoreXMLVersion(true)
-        , dontReadFromCache(false)
+        , readFromCache(true)
+        , writeToCache(true)
         , database("cache.sqlite")
         {
             std::stringstream xmlVersion;
@@ -211,7 +212,7 @@ namespace TyrantCache {
         DiskBackedCache::loadCache(C::SimulationTask const & task
                                   )
         {
-            if(this->dontReadFromCache) {
+            if(!this->readFromCache) {
                 return C::SimulationResult();
             }
             this->selectStatement->bindText(4, task.attacker);
@@ -320,10 +321,16 @@ namespace TyrantCache {
         }
 
         void
-        DiskBackedCache::setDontReadCache(bool dontReadCache)
+        DiskBackedCache::setReadFromCache(bool readFromCache)
         {
-            this->dontReadFromCache = dontReadCache;
+            this->readFromCache = readFromCache;
         }
+
+        void
+        DiskBackedCache::setWriteToCache(bool writeToCache)
+        {
+            this->writeToCache = writeToCache;
+        }        
 
         std::map<std::string, C::SimulationResult>
         DiskBackedCache::getDecks

@@ -8,7 +8,7 @@
     #include <dlfcn.h>
     #include <cxxabi.h>
     #include <cstdlib>
-    #include <pstream.h>
+    #include <pstreams/pstream.h>
 #endif
 
 // class Exception taken from http://markus-mazurczak.de/?p=17 under GPL v3

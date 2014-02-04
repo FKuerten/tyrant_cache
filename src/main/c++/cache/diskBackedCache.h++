@@ -14,7 +14,8 @@
                 private:
                     bool ignoreCoreVersion;
                     bool ignoreXMLVersion;
-                    bool dontReadFromCache;
+                    bool readFromCache;
+                    bool writeToCache;
                     S::SQLiteWrapper database;
                     
                     S::PreparedStatement * insertStatement;
@@ -32,7 +33,8 @@
                 public:
                     DiskBackedCache(SimulatorCore::Ptr & delegate);
                     virtual ~DiskBackedCache();
-                    void setDontReadCache(bool);
+                    void setReadFromCache(bool);
+                    void setWriteToCache(bool);
 
                     virtual C::SimulationResult simulate(C::SimulationTask const &);
                     virtual C::SimulationResult simulate(C::SimulationTask const &, unsigned long numberOfNewSamples);

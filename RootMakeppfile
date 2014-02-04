@@ -1,47 +1,16 @@
-CREATE_DIR:=$(shell if [ ! -e target/objects ]; then mkdir -p target/objects; echo "mkdir -p target/objects"; fi)
-
-
-# This recreates the Makeppfile responsible for building the objects
-target/objects/Makeppfile: target/objects/Makeppfile.auto
-    @if [ ! -e target/objects ]; then mkdir -p target/objects; echo "mkdir -p target/objects"; fi
-    @if [ -e ${output} ] && diff --brief ${input} ${output} >/dev/null ; then \
-        true; \
-    else \
-        echo "cp ${input} ${output}"; \
-        cp ${input} ${output}; \
-    fi
-
-target/objects/Makeppfile.auto: FORCE scripts/generateMakeppfileForObjects.sh scripts/MakeppfileForObjectsTemplate
-    @if [ ! -e target/objects ]; then mkdir -p target/objects; echo "mkdir -p target/objects"; fi
-    @./scripts/generateMakeppfileForObjects.sh > ${output}
-    @if [ -e target/objects/Makeppfile ] && diff --brief ${output} target/objects/Makeppfile >/dev/null ; then \
-        true; \
-    else \
-        echo "./scripts/generateMakeppfileForObjects.sh > ${output}"; \        
-    fi
-
-# This is responsible for creating a version header
-target/generated/version.h++: target/generated/version.h++.auto
-    @if [ ! -e target/generated ]; then mkdir -p target/generated; echo "mkdir -p target/generated"; fi
-    @if [ -e ${output} ] && diff --brief ${input} ${output} >/dev/null ; then \
-        true; \
-    else \
-        echo "cp ${input} ${output}"; \
-        cp ${input} ${output}; \
-    fi
-
-target/generated/version.h++.auto: FORCE scripts/generateVersionH++.sh
-    @if [ ! -e target/generated ]; then mkdir -p target/generated; echo "mkdir -p target/generated"; fi
-    @./scripts/generateVersionH++.sh > ${output}
-    @if [ -e target/generated/version.h++ ] && diff --brief ${output} target/generated/version.h++ >/dev/null ; then \
-        true; \
-    else \
-        echo "./scripts/generateVersionH++.sh > ${output}"; \        
-    fi
+include scripts/objectsMakeppfile.mk
+include scripts/version.mk
 
 $(phony FORCE):
     @true
 
 global CXXFLAGS+= --std=c++11 -I${ROOT}/target/generated
+LIBS:=-lboost_program_options -lcrypto -lsqlite3
 
 load_makefile target/objects/Makeppfile
+
+makepp_percent_subdirs:=1
+OBJECTS:=$(shell ./scripts/findObjects.sh)
+
+target/tyrantCache: $(infer_objects target/objects/cli/main.o++, ${OBJECTS})
+    ${CXX} ${LDFLAGS} ${LIBS} ${inputs} -o ${output}

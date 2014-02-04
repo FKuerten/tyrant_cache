@@ -8,7 +8,7 @@ namespace TyrantCache {
         , surge(false)
         , delayFirstAttacker(false)
         , battleGround(-1)
-        , achievementOptions(-1)
+        , achievement(-1)
         , randomSeed(0)
         , numberOfRounds(50)
         , useRaidRules(false)

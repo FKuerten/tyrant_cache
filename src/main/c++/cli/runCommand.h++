@@ -2,11 +2,12 @@
     #define TYRANT_CACHE_CLI_RUNCOMMAND_HPP
 
     #include "../core/simulatorCore.h++"
-    //#include "../OPT/optimizer.hpp"
+    #include "../cache/diskBackedCache.h++"
     #include "commands.h++"
-    //#include <memory>
+    #include <memory>
 
     namespace C = TyrantCache::Core;
+    namespace Cache = TyrantCache::Cache;
     namespace TyrantCache {
         namespace CLI {
 
@@ -16,12 +17,12 @@
                 public:
                     C::SimulationTask task;
                 private:
-                    C::SimulatorCore::Ptr simulator;
+                    Cache::DiskBackedCache::Ptr simulator;
                 public:
                     void setCacheWrite(bool cacheWrite);
                     void setCacheRead(bool cacheRead);
                 public:
-                    RunCommand(int verbosity);
+                    RunCommand(Configuration);
                     ~RunCommand();
 
                     int execute();

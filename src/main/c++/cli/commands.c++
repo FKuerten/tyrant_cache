@@ -1,18 +1,15 @@
 #include "commands.h++"
 #include <version.h++>
-//#include <iostream>
-//#include <boost/program_options.hpp>
 #include "../core/simulatorCore.h++"
-#include "../configuration/configuration.h++"
-//#include <iomanip>
 #include "../errorHandling/assert.h++"
 
 namespace C = TyrantCache::Core;
 namespace TyrantCache {
     namespace CLI {
 
-        Command::Command()
+        Command::Command(Configuration configuration)
         : aborted(false)
+        , configuration(configuration)
         {}
 
         Command::~Command()
@@ -24,6 +21,10 @@ namespace TyrantCache {
             this->aborted = true;
         }
 
+        VersionCommand::VersionCommand(Configuration configuration)
+        : Command(configuration)
+        {
+        }
 
         int VersionCommand::execute()
         {
@@ -52,7 +53,7 @@ namespace TyrantCache {
             }
 
             // TODO Obviously if we want to allow exchangable core we would need a better way here.
-            C::SimulatorCore::Ptr core = TyrantCache::Configuration::Configuration::constructCore();
+            C::SimulatorCore::Ptr core = this->configuration.constructCore();
 
             std::cout << "Simulator core name: "    << std::endl;
             std::cout << '\t' << core->getCoreName()        << std::endl;
@@ -74,16 +75,22 @@ namespace TyrantCache {
             return 0;
         }
 
+        CoreVersionCommand::CoreVersionCommand(Configuration configuration)
+        : Command(configuration)
+        {
+        }
+
         int CoreVersionCommand::execute()
         {
-            C::SimulatorCore::Ptr core = TyrantCache::Configuration::Configuration::constructCore();
+            C::SimulatorCore::Ptr core = this->configuration.constructCore();
 
             std::cout << core->getCoreVersionHumanReadable() << std::endl;
             return 0;
         }
 
-        HelpCommand::HelpCommand(boost::program_options::options_description const & desc)
-        : desc(desc)
+        HelpCommand::HelpCommand(Configuration configuration, boost::program_options::options_description const & desc)
+        : Command(configuration)
+        , desc(desc)
         {
         }
 
