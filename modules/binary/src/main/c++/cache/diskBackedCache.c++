@@ -254,24 +254,25 @@ namespace TyrantCache {
                                    ,C::SimulationResult const & freshResult
                                    )
         {
-
-            this->insertStatement->bindText(4, *(task.attacker));
-            this->insertStatement->bindText(5, *(task.defender));
-            this->insertStatement->bindInt(6, task.surge);
-            this->insertStatement->bindInt(7, task.delayFirstAttacker);
-            this->insertStatement->bindInt(8, task.battleGround);
-            this->insertStatement->bindInt(9, task.achievement);
-            this->insertStatement->bindInt(10, task.numberOfRounds);
-            this->insertStatement->bindInt(11, task.useRaidRules);
-            this->insertStatement->bindInt(12, freshResult.numberOfGames);
-            this->insertStatement->bindInt(13, freshResult.gamesWon);
-            this->insertStatement->bindInt(14, freshResult.gamesStalled);
-            this->insertStatement->bindInt(15, freshResult.gamesLost);
-            this->insertStatement->bindInt(16, freshResult.pointsAttacker);
-            this->insertStatement->bindInt(17, freshResult.pointsAttackerAuto);
-            this->insertStatement->bindInt(18, freshResult.pointsDefender);
-            this->insertStatement->bindInt(19, freshResult.pointsDefenderAuto);
-            this->insertStatement->execute();
+            if(this->writeToCache) {
+                this->insertStatement->bindText(4, *(task.attacker));
+                this->insertStatement->bindText(5, *(task.defender));
+                this->insertStatement->bindInt(6, task.surge);
+                this->insertStatement->bindInt(7, task.delayFirstAttacker);
+                this->insertStatement->bindInt(8, task.battleGround);
+                this->insertStatement->bindInt(9, task.achievement);
+                this->insertStatement->bindInt(10, task.numberOfRounds);
+                this->insertStatement->bindInt(11, task.useRaidRules);
+                this->insertStatement->bindInt(12, freshResult.numberOfGames);
+                this->insertStatement->bindInt(13, freshResult.gamesWon);
+                this->insertStatement->bindInt(14, freshResult.gamesStalled);
+                this->insertStatement->bindInt(15, freshResult.gamesLost);
+                this->insertStatement->bindInt(16, freshResult.pointsAttacker);
+                this->insertStatement->bindInt(17, freshResult.pointsAttackerAuto);
+                this->insertStatement->bindInt(18, freshResult.pointsDefender);
+                this->insertStatement->bindInt(19, freshResult.pointsDefenderAuto);
+                this->insertStatement->execute();
+            }
         }
 
         C::SimulationResult
