@@ -4,7 +4,7 @@ include scripts/version.mk
 $(phony FORCE):
     @true
 
-global CXXFLAGS:=${CXXFLAGS} --std=c++11 -I${CURRENT}/target/generated
+global CXXFLAGS:=${CXXFLAGS} --std=c++11 -I${CURDIR}/target/generated
 LIBS:=-lboost_program_options -lcrypto -lsqlite3
 
 load_makefile target/objects/Makeppfile
