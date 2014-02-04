@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/regex.hpp>
@@ -40,6 +41,12 @@ namespace TyrantCache {
             return executable;
         }
 
+        std::tuple<std::string, bool>
+        deckTemplateToTOArgument(C::DeckTemplate::Ptr)
+        {
+            throw 0;
+        }
+
         C::SimulationResult
         TyrantOptimizerCLI::simulate(C::SimulationTask const & task)
         {
@@ -54,8 +61,10 @@ namespace TyrantCache {
             // A.10 the decks
             // TODO need something more standardized than passing literal input values
             // TODO also order
-            command << " " << task.attacker;
-            command << " " << task.defender;
+            std::tuple<std::string, bool> attackerInformation = deckTemplateToTOArgument(task.attacker);
+            std::tuple<std::string, bool> defenderInformation = deckTemplateToTOArgument(task.defender);
+            command << " " << std::get<0>(attackerInformation);
+            command << " " << std::get<0>(defenderInformation);
 
             // A.20 the flags
             if (task.achievement > 0) {
@@ -71,7 +80,12 @@ namespace TyrantCache {
                 command << " " << "-s";
             }
             // A.33 ordered decks
-            throw 0;
+            if (std::get<1>(attackerInformation)) {
+                command << " " << "-r";
+            }
+            if (std::get<1>(defenderInformation)) {
+                throw LogicError("Tyrant Optimize binding does not support ordered defense decks.");
+            }
 
             //std::clog << "Arguments: " << std::endl;
             //for(std::string argument: arguments) {
