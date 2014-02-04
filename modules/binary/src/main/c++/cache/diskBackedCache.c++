@@ -1,8 +1,6 @@
 #include "diskBackedCache.h++"
 #include <sstream>
-//#include <iostream>
-//#include <ctime>
-#include "../errorHandling/assert.h++"
+#include <errorHandling/assert.h++>
 
 namespace TyrantCache {
     namespace Cache {

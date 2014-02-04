@@ -1,7 +1,7 @@
 #include <iostream>
 #include "commands.h++"
 #include "optionParser.h++"
-#include "../errorHandling/exceptions.h++"
+#include <errorHandling/exceptions.h++>
 
 #ifdef _POSIX_SOURCE
     #include <csignal>

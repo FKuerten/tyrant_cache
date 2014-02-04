@@ -1,7 +1,6 @@
 #ifndef TYRANT_CACHE_CLI_OPTIONPARSER_HPP
     #define TYRANT_CACHE_CLI_OPTIONPARSER_HPP
 
-    //#include "../core/simulatorCore.hpp"
     #include "commands.h++"
 
     namespace TyrantCache {

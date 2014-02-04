@@ -10,6 +10,7 @@
             class Configuration {
                 public:
                     Core::SimulatorCore::Ptr constructCore();
+                    signed int verbosity = 0;
             };
         }
     }

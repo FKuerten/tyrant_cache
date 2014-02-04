@@ -1,15 +1,27 @@
+# Configuration section
+MODULE_NAME=
+DEPENDENCIES=basics
+LIBS:=-lboost_program_options -lcrypto -lsqlite3
+
 include scripts/objectsMakeppfile.mk
 include scripts/version.mk
 
 $(phony FORCE):
     @true
 
-global CXXFLAGS:=${CXXFLAGS} --std=c++11 -I${CURDIR}/target/generated
-LIBS:=-lboost_program_options -lcrypto -lsqlite3
+global CXXFLAGS+= --std=c++11
+global CPPFLAGS:=${CPPFLAGS} -I${CURDIR}/target/generated
+
+
+CPPFLAGS+=-I${CURDIR}/../${DEPENDENCIES}/src/main/c++/
+LIBS+=-l${DEPENDENCIES}
+LDFLAGS+=-L${CURDIR}/../${DEPENDENCIES}/target/
+OWNLIBS=$(shell ./scripts/expandModules.sh ${DEPENDENCIES})
 
 load_makefile target/objects/Makeppfile
+load_makefile ${CURDIR}/../${DEPENDENCIES}
 
 OBJECTS:=$(shell ./scripts/findObjects.sh)
 
-target/tyrantCache: $(infer_objects target/objects/cli/main.o++, ${OBJECTS})
+target/tyrantCache: $(infer_objects target/objects/cli/main.o++, ${OBJECTS}) ${OWNLIBS}
     ${CXX} ${LDFLAGS} ${LIBS} ${inputs} -o ${output}

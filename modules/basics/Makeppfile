@@ -1,19 +1,29 @@
+# Configuration section
+MODULE_NAME=basics
+DEPENDENCIES=
+LIBS:=
+
 include scripts/objectsMakeppfile.mk
 include scripts/version.mk
 
 $(phony FORCE):
     @true
 
-global CXXFLAGS:=${CXXFLAGS} --std=c++11 -I${CURDIR}/target/generated
-LIBS:=
+global CXXFLAGS+= --std=c++11
+global CPPFLAGS:=${CPPFLAGS} -I${CURDIR}/target/generated
 ARFLAGS:=crvs
 
+CPPFLAGS+=-I${CURDIR}/../${DEPENDENCIES}/src/main/c++/
+LIBS+=-l${DEPENDENCIES}
+LDFLAGS+=-L${CURDIR}/../${DEPENDENCIES}/target/
+OWNLIBS=$(shell ./scripts/expandModules.sh ${DEPENDENCIES})
+
 load_makefile target/objects/Makeppfile
+load_makefile ${CURDIR}/../${DEPENDENCIES}
 
 OBJECTS:=$(shell ./scripts/findObjects.sh)
-MODULE_NAME=basics
+
 MODULE_STATIC_LIBRARY:=lib${MODULE_NAME}.a
-MODULE_SHARED_LIBRARY:=lib${MODULE_NAME}.so
 
 target/${MODULE_STATIC_LIBRARY}: ${OBJECTS}
 	@if [ -e ${output} ]; then rm ${output}; echo "rm ${output}"; fi

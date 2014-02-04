@@ -1,5 +1,5 @@
 #include "simulatorCore.h++"
-#include "../errorHandling/assert.h++"
+#include <errorHandling/assert.h++>
 
 #include <openssl/md5.h>
 #include <fstream>

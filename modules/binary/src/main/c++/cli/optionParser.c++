@@ -1,46 +1,11 @@
 #include "optionParser.h++"
 
-/*
-#include <boost/lexical_cast.hpp>
-#include <boost/program_options/errors.hpp>
-#include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
-#include <boost/program_options/value_semantic.hpp>
+//#include <boost/program_options/value_semantic.hpp>
 #include <boost/program_options/variables_map.hpp>
-#include <cctype>
-#include <cstddef>
-#include <list>
-#include <map>
-#include <memory>
-#include <new>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <utility>
-*/
 
-#include "../errorHandling/exceptions.h++"
+#include <errorHandling/exceptions.h++>
 #include "runCommand.h++"
-/*
-#include "../CORE/achievementOptions.hpp"
-#include "../CORE/activeDeck.forward.hpp"
-#include "../CORE/assert.hpp"
-#include "../CORE/autoDeckTemplate.hpp"
-#include "../CORE/cardDB.hpp"
-#include "../CORE/constants.hpp"
-#include "../CORE/deckTemplate.hpp"
-#include "../CORE/iterateDecksCore.hpp"
-#include "../CORE/questDeck.hpp"
-#include "../CORE/raidDeck.hpp"
-#include "../CORE/simpleTypes.hpp"
-#include "missionIdDeckTemplate.hpp"
-
-#include "simpleOrderedDeckTemplate.hpp"
-#include "../CORE/multiDeckTemplate.hpp"
-#include "../OPT/optimizer.hpp"
-
-#include "deckParser.hpp"
-*/
 
 namespace po = boost::program_options;
 namespace TyrantCache {
@@ -60,7 +25,6 @@ namespace TyrantCache {
                 bool cacheRead = true;
                 bool cacheWrite = true;
                 bool useRaidRules;
-                int verbosity;
 
                 po::options_description desc("Allowed options");
                 desc.add_options()
@@ -126,7 +90,7 @@ namespace TyrantCache {
                     throw InvalidUserInputError("Need a defender.");
                 }
 
-                verbosity = vm.count("verbose");
+                configuration.verbosity = vm.count("verbose");
 
                 RunCommand::Ptr command = RunCommand::Ptr(
                     new RunCommand(configuration)                                    

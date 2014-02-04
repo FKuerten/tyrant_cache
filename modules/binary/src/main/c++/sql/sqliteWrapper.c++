@@ -1,6 +1,6 @@
 #include "sqliteWrapper.h++"
-#include "../errorHandling/exceptions.h++"
-#include "../errorHandling/assert.h++"
+#include <errorHandling/exceptions.h++>
+#include <errorHandling/assert.h++>
 #include <sstream>
 #include <boost/lexical_cast.hpp>
 

@@ -1,1 +1,0 @@
-../../../scripts/generateMakeppfileForObjects.sh
