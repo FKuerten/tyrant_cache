@@ -31,6 +31,8 @@ namespace TyrantCache {
             }
             return ssString.str();
         }
+
+        CREATE_VISITOR_METHOD(SimpleOrderedDeckTemplate)
         
     }
 }

@@ -14,5 +14,7 @@ namespace TyrantCache {
         {
             return "RAIDID:" + boost::lexical_cast<std::string>(this->raidId);
         }
+
+        CREATE_VISITOR_METHOD(RaidDeckTemplate)
     }
 }

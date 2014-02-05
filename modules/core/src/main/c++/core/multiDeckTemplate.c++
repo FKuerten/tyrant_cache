@@ -29,5 +29,7 @@ namespace TyrantCache {
             return this->decks;
         }
 
+        CREATE_VISITOR_METHOD(MultiDeckTemplate)
+
     }
 }

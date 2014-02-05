@@ -12,12 +12,15 @@
             class AutoDeckTemplate : public DeckTemplate {
                 public:
                     typedef std::shared_ptr<AutoDeckTemplate> Ptr;
-                private:
+                    CREATE_VISITOR_INTERFACE(AutoDeckTemplate);
+                public:
                     unsigned int commander;
                     std::multiset<unsigned int> cards;
                 public:
                     AutoDeckTemplate(std::list<unsigned int> const & ids);
                     virtual operator std::string() const;
+
+                    virtual void accept(::TyrantCache::Visitor::AcyclicVisitor & visitor);
             };
 
         }

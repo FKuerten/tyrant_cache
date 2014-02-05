@@ -1,5 +1,6 @@
 #include "autoDeckTemplate.h++"
 #include <errorHandling/assert.h++>
+#include <errorHandling/exceptions.h++>
 
 namespace TyrantCache {
     namespace Core {
@@ -33,5 +34,6 @@ namespace TyrantCache {
             return ssString.str();
         }
 
+        CREATE_VISITOR_METHOD(AutoDeckTemplate)
     }
 }

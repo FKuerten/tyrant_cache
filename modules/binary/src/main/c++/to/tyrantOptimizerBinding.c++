@@ -9,6 +9,8 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
+#include <core/autoDeckTemplate.h++>
+#include "../cli/simpleOrderedDeckTemplate.h++"
 
 std::string const executable = "./tyrant_optimize";
 
@@ -41,10 +43,83 @@ namespace TyrantCache {
             return executable;
         }
 
-        std::tuple<std::string, bool>
-        deckTemplateToTOArgument(C::DeckTemplate::Ptr)
+        class TODeckVisitor : public C::AutoDeckTemplate::Visitor
+                            , public ::TyrantCache::CLI::SimpleOrderedDeckTemplate::Visitor
+                            , public ::TyrantCache::Visitor::AcyclicVisitor
         {
-            throw 0;
+            private:
+                std::string result;
+                bool ordered;
+
+                char encodeBase64(unsigned int x)
+                {
+                    if (x < 26) {
+                        return x + 'A';
+                    } else if (x < 52) {
+                        return x - 26 + 'a';
+                    } else if (x < 62) {
+                        return x - 52 + '0';
+                    } else if ( x == 62) {
+                        return '+';
+                    } else if ( x == 63) {
+                        return '/';
+                    } else {
+                        assertX(false);
+                    }
+                }
+
+                std::string idToBase64Minus(unsigned int cardId)
+                {
+                    std::stringstream ssBase64Minus;
+                    if (cardId > 4000) {
+                        ssBase64Minus << '-';
+                        cardId-=4000;
+                    }
+                    unsigned int high = (cardId >> 6) & 077;
+                    unsigned int low = cardId & 077;
+                    ssBase64Minus << encodeBase64(high);
+                    ssBase64Minus << encodeBase64(low);
+                    return ssBase64Minus.str();
+                }
+
+                template <class T>
+                std::string idsToBase64Minus(unsigned int commanderId
+                                       ,T start
+                                       ,T end)
+                {
+                    std::stringstream ssBase64Minus;
+                    ssBase64Minus << idToBase64Minus(commanderId);
+                    for(T iterator = start; iterator != end; iterator++) {
+                        unsigned int const cardId = *iterator;
+                        std::string cardHash = idToBase64Minus(cardId);
+                        ssBase64Minus << cardHash;
+                    }
+                    return ssBase64Minus.str();
+                }
+                
+                virtual void visit(C::AutoDeckTemplate & autoDeckTemplate) override
+                {
+                    this->ordered = false;
+                    this->result = idsToBase64Minus(autoDeckTemplate.commander, autoDeckTemplate.cards.begin(), autoDeckTemplate.cards.end());
+                }
+                virtual void visit(CLI::SimpleOrderedDeckTemplate & simpleOrderedDeckTemplate) override
+                {
+                    this->ordered = true;
+                    this->result = idsToBase64Minus(simpleOrderedDeckTemplate.commander, simpleOrderedDeckTemplate.cards.begin(), simpleOrderedDeckTemplate.cards.end());
+                }
+            public:
+                std::string getResult() const { return this->result; }
+                bool isOrdered() const { return this->ordered; }
+        };
+
+        std::tuple<std::string, bool>
+        deckTemplateToTOArgument(C::DeckTemplate::Ptr deckTemplate)
+        {
+            TODeckVisitor visitor;
+            deckTemplate->accept(visitor);
+            std::string deckDescription = visitor.getResult();
+            bool isOrdered = visitor.isOrdered();
+            return std::make_tuple(deckDescription, isOrdered);
         }
 
         C::SimulationResult
@@ -87,12 +162,9 @@ namespace TyrantCache {
                 throw LogicError("Tyrant Optimize binding does not support ordered defense decks.");
             }
 
-            //std::clog << "Arguments: " << std::endl;
-            //for(std::string argument: arguments) {
-            //    std::clog << '"' << argument << '"' << std::endl;
-            //}
-            //std::clog << command.str();
-            //std::clog << std::endl;
+            std::clog << "Command: " << std::endl;
+            std::clog << command.str();
+            std::clog << std::endl;
             //std::clog << "Result: " << std::endl;
             //this->theProgram.open(executable, arguments);
             this->theProgram.open(command.str());

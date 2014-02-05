@@ -14,5 +14,8 @@ namespace TyrantCache {
         {
             return "QUESTID:" + boost::lexical_cast<std::string>(this->questId);
         }
+
+        CREATE_VISITOR_METHOD(QuestDeckTemplate)
+
     }
 }

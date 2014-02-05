@@ -10,13 +10,15 @@ namespace TyrantCache {
         class QuestDeckTemplate : public DeckTemplate {
         public:
             typedef std::shared_ptr<QuestDeckTemplate> Ptr;
-
+            CREATE_VISITOR_INTERFACE(QuestDeckTemplate);
         private:
             unsigned int questId;
 
         public:
             QuestDeckTemplate(unsigned int questId);
             operator std::string() const;
+
+            virtual void accept(::TyrantCache::Visitor::AcyclicVisitor & visitor);
         };
     }
 }

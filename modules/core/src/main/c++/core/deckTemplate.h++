@@ -3,6 +3,7 @@
 
     #include <string>
     #include <memory>
+    #include <visitor/acyclicVisitor.h++>
 
     namespace TyrantCache {
         namespace Core {
@@ -18,6 +19,12 @@
                 public:
                     virtual ~DeckTemplate();
                     virtual operator std::string() const = 0;
+
+                    /**
+                     * Visitor stuff.
+                     * We use the acyclic visitor pattern.
+                     */
+                    virtual void accept(Visitor::AcyclicVisitor & visitor) = 0;
             };
 
         }
