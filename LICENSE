@@ -30,4 +30,6 @@ GPL v3. See <http://markus-mazurczak.de/?p=17>.
 
 We use crypto++ for md5 hashing, also under the Boost License.
 
-The pstreams library under the LGPL v3. See <http://pstreams.sourceforge.net/>.
+We use the pstreams library under the LGPL v3. See <http://pstreams.sourceforge.net/>.
+
+We use sqlite3, which is in the public domain.

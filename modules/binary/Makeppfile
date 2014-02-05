@@ -37,3 +37,6 @@ target/tyrantCache: $(infer_objects target/objects/cli/main.o++, ${OBJECTS}) ${O
 	       $(infer_objects target/objects/cli/main.o++, ${OBJECTS}) \
 	       ${ALLLIBS} \
 	       -o ${output}
+
+target/dependencies:
+    echo ${ALLLIBS} > ${output}

@@ -4,4 +4,12 @@ target/tyrantCache: modules/binary/target/tyrantCache
     @mkdir -p target
     cp ${input} ${output}
 
+target/dependencies: modules/binary/target/dependencies
+    @mkdir -p target
+    cp ${input} ${output}
+
 $(phony compile): target/tyrantCache
+
+$(phony list_libraries): target/dependencies
+    cat $(input)
+
