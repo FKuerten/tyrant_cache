@@ -115,7 +115,10 @@ namespace TyrantCache {
                 }
                 virtual void visit(Core::MissionIdDeckTemplate & missionIdDeckTemplate) override
                 {
-                    throw LogicError("Not implemented");
+                    std::stringstream ssResult;
+                    ssResult << "Mission #";
+                    ssResult << missionIdDeckTemplate.missionId;
+                    this->result = ssResult.str();
                 }
                 virtual void visit(Core::RaidDeckTemplate & raidDeckTemplate) override
                 {
@@ -127,7 +130,10 @@ namespace TyrantCache {
                 }
                 virtual void visit(Core::QuestDeckTemplate & questDeckTemplate) override
                 {
-                    throw LogicError("Not implemented");
+                    std::stringstream ssResult;
+                    ssResult << "Quest #";
+                    ssResult << questDeckTemplate.questId;
+                    this->result = ssResult.str();
                 }
                 
             public:
