@@ -12,7 +12,7 @@
                 public:
                     typedef std::shared_ptr<MissionIdDeckTemplate> Ptr;
                     CREATE_VISITOR_INTERFACE(MissionIdDeckTemplate);
-                private:
+                public:
                     unsigned int missionId;
                 public:
                     MissionIdDeckTemplate(unsigned int missionId);

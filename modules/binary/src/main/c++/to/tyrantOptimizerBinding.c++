@@ -11,6 +11,9 @@
 #include <boost/lexical_cast.hpp>
 #include <core/autoDeckTemplate.h++>
 #include "../cli/simpleOrderedDeckTemplate.h++"
+#include <core/missionIdDeckTemplate.h++>
+#include <core/raidDeckTemplate.h++>
+#include <core/questDeckTemplate.h++>
 
 std::string const executable = "./tyrant_optimize";
 
@@ -45,11 +48,15 @@ namespace TyrantCache {
 
         class TODeckVisitor : public C::AutoDeckTemplate::Visitor
                             , public ::TyrantCache::CLI::SimpleOrderedDeckTemplate::Visitor
+                            , public C::MissionIdDeckTemplate::Visitor
+                            , public C::RaidDeckTemplate::Visitor
+                            , public C::QuestDeckTemplate::Visitor
                             , public ::TyrantCache::Visitor::AcyclicVisitor
         {
             private:
                 std::string result;
-                bool ordered;
+                bool ordered = false;
+                bool raid = false;
 
                 char encodeBase64(unsigned int x)
                 {
@@ -99,7 +106,6 @@ namespace TyrantCache {
                 
                 virtual void visit(C::AutoDeckTemplate & autoDeckTemplate) override
                 {
-                    this->ordered = false;
                     this->result = idsToBase64Minus(autoDeckTemplate.commander, autoDeckTemplate.cards.begin(), autoDeckTemplate.cards.end());
                 }
                 virtual void visit(CLI::SimpleOrderedDeckTemplate & simpleOrderedDeckTemplate) override
@@ -107,19 +113,38 @@ namespace TyrantCache {
                     this->ordered = true;
                     this->result = idsToBase64Minus(simpleOrderedDeckTemplate.commander, simpleOrderedDeckTemplate.cards.begin(), simpleOrderedDeckTemplate.cards.end());
                 }
+                virtual void visit(Core::MissionIdDeckTemplate & missionIdDeckTemplate) override
+                {
+                    throw LogicError("Not implemented");
+                }
+                virtual void visit(Core::RaidDeckTemplate & raidDeckTemplate) override
+                {
+                    this->raid = true;
+                    std::stringstream ssResult;
+                    ssResult << "Raid #";
+                    ssResult << raidDeckTemplate.raidId;
+                    this->result = ssResult.str();
+                }
+                virtual void visit(Core::QuestDeckTemplate & questDeckTemplate) override
+                {
+                    throw LogicError("Not implemented");
+                }
+                
             public:
                 std::string getResult() const { return this->result; }
                 bool isOrdered() const { return this->ordered; }
+                bool isRaid() const { return this->raid; }
         };
 
-        std::tuple<std::string, bool>
+        std::tuple<std::string, bool, bool>
         deckTemplateToTOArgument(C::DeckTemplate::Ptr deckTemplate)
         {
             TODeckVisitor visitor;
             deckTemplate->accept(visitor);
             std::string deckDescription = visitor.getResult();
             bool isOrdered = visitor.isOrdered();
-            return std::make_tuple(deckDescription, isOrdered);
+            bool isRaid = visitor.isRaid();
+            return std::make_tuple(deckDescription, isOrdered, isRaid);
         }
 
         C::SimulationResult
@@ -136,10 +161,10 @@ namespace TyrantCache {
             // A.10 the decks
             // TODO need something more standardized than passing literal input values
             // TODO also order
-            std::tuple<std::string, bool> attackerInformation = deckTemplateToTOArgument(task.attacker);
-            std::tuple<std::string, bool> defenderInformation = deckTemplateToTOArgument(task.defender);
-            command << " " << std::get<0>(attackerInformation);
-            command << " " << std::get<0>(defenderInformation);
+            std::tuple<std::string, bool, bool> attackerInformation = deckTemplateToTOArgument(task.attacker);
+            std::tuple<std::string, bool, bool> defenderInformation = deckTemplateToTOArgument(task.defender);
+            command << " " << '"' << std::get<0>(attackerInformation) << '"';
+            command << " " << '"' << std::get<0>(defenderInformation) << '"';
 
             // A.20 the flags
             if (task.achievement > 0) {
@@ -161,6 +186,13 @@ namespace TyrantCache {
             if (std::get<1>(defenderInformation)) {
                 throw LogicError("Tyrant Optimize binding does not support ordered defense decks.");
             }
+            bool isRaid = false;
+            if (std::get<2>(attackerInformation)) {
+                throw LogicError("Tyrant Optimize binding does not support raid attack decks.");
+            }
+            if (std::get<2>(defenderInformation)) {
+                isRaid = true;
+            }
 
             std::clog << "Command: " << std::endl;
             std::clog << command.str();
@@ -173,7 +205,7 @@ namespace TyrantCache {
             std::string line;
             while(std::getline(this->theProgram, line)) {
                 ssResult << line << std::endl;
-                //std::clog << line << std::endl;
+                std::clog << line << std::endl;
             }
             this->theProgram.close();
             int exitCode = this->theProgram.rdbuf()->status();
@@ -196,27 +228,53 @@ namespace TyrantCache {
                     std::string sRegex = "win%: (.+) \\((.+) / (.+)\\)";
                     boost::regex regex{sRegex};
                     if (boost::regex_match(line, match, regex)) {
-                        simulationResult.gamesWon = boost::lexical_cast<unsigned int>(match.str(2));
+                        if (!isRaid) {
+                            simulationResult.gamesWon = boost::lexical_cast<unsigned int>(match.str(2));
+                        } else {
+                            simulationResult.gamesStalled = boost::lexical_cast<unsigned int>(match.str(2));
+                        }
                     } 
                 } else if (boost::starts_with(line, "stall%: ")) {
+                    assertX(!isRaid);
                     boost::smatch match;
                     std::string sRegex = "stall%: (.+) \\((.+) / (.+)\\)";
                     boost::regex regex{sRegex};
                     if (boost::regex_match(line, match, regex)) {
                         simulationResult.gamesStalled = boost::lexical_cast<unsigned int>(match.str(2));
                     }
-                } else if (boost::starts_with(line, "loss%: ")) {
+                } else if (boost::starts_with(line, "loss%: ")) {                    
                     boost::smatch match;
                     std::string sRegex = "loss%: (.+) \\((.+) / (.+)\\)";
                     boost::regex regex{sRegex};
                     if (boost::regex_match(line, match, regex)) {
                         simulationResult.gamesLost = boost::lexical_cast<unsigned int>(match.str(2));
-                    }                    
+                    }
+                } else if (boost::starts_with(line, "slay%: ")) {
+                    assertX(isRaid);
+                    boost::smatch match;
+                    std::string sRegex = "slay%: (.+) \\((.+) / (.+)\\)";
+                    boost::regex regex{sRegex};
+                    if (boost::regex_match(line, match, regex)) {
+                        simulationResult.gamesWon = boost::lexical_cast<unsigned int>(match.str(2));
+                    }
+                } else if (boost::starts_with(line, "ard: ")) {
+                    assertX(isRaid);
+                    boost::smatch match;
+                    std::string sRegex = "ard: (.+) \\((.+) / (.+)\\)";
+                    boost::regex regex{sRegex};
+                    if (boost::regex_match(line, match, regex)) {
+                        simulationResult.pointsAttacker = boost::lexical_cast<unsigned int>(match.str(2));
+                        simulationResult.pointsAttackerAuto = simulationResult.pointsAttacker;
+                    }
                 }
-                simulationResult.numberOfGames = simulationResult.gamesWon
-                                               + simulationResult.gamesStalled
-                                               + simulationResult.gamesLost;
+            }                
+            if (isRaid) {
+                assertGT(simulationResult.gamesStalled, simulationResult.gamesWon);
+                simulationResult.gamesStalled -= simulationResult.gamesWon;
             }
+            simulationResult.numberOfGames = simulationResult.gamesWon
+                                           + simulationResult.gamesStalled
+                                           + simulationResult.gamesLost;
             //std::clog << std::flush;
             return simulationResult;
         }

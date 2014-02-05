@@ -11,7 +11,7 @@ namespace TyrantCache {
         public:
             typedef std::shared_ptr<QuestDeckTemplate> Ptr;
             CREATE_VISITOR_INTERFACE(QuestDeckTemplate);
-        private:
+        public:
             unsigned int questId;
 
         public:

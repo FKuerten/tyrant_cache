@@ -11,7 +11,7 @@ namespace TyrantCache {
         public:
             typedef std::shared_ptr<RaidDeckTemplate> Ptr;
             CREATE_VISITOR_INTERFACE(RaidDeckTemplate);
-        private:
+        public:
             unsigned int raidId;
 
         public:
