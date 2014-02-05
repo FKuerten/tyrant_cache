@@ -1,7 +1,8 @@
 #include "simulatorCore.h++"
 #include <errorHandling/assert.h++>
 
-#include <openssl/md5.h>
+#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
+#include <crypto++/md5.h>
 #include <fstream>
 #include <map>
 
@@ -15,25 +16,23 @@ namespace TyrantCache {
                 ,std::string fileName
                 )
         {
-            unsigned char digest[MD5_DIGEST_LENGTH];
+            CryptoPP::Weak1::MD5 hash;
+            byte digest[ CryptoPP::Weak1::MD5::DIGESTSIZE ];
             char buffer[1024];
-            MD5_CTX md5Context;
-            MD5_Init(&md5Context);
 
             std::ifstream file(fileName);
             if(! file.is_open()) {
                 throw RuntimeError("file not found: " + fileName);
             }
             while(!(file.eof())) {
-                //std::streamsize n = file.readsome(buffer, sizeof(buffer));
                 file.read(buffer, sizeof(buffer));
                 std::streamsize n = file.gcount();
-                MD5_Update(&md5Context, buffer, n);
+                hash.Update((byte*)buffer, n);
             }
             file.close();
-            MD5_Final(digest, &md5Context);
+            hash.Final(digest);
             std::stringstream ssDigest;
-            for(int i = 0; i < MD5_DIGEST_LENGTH; i++) {
+            for(int i = 0; i < CryptoPP::Weak1::MD5::DIGESTSIZE; i++) {
                 ssDigest << std::setw(2) << std::setfill('0') << std::hex << (unsigned int)(digest[i]);
             }
             hashes[fileName] = ssDigest.str();
@@ -48,7 +47,7 @@ namespace TyrantCache {
             hashFile(hashes, "raids.xml");
             hashFile(hashes, "quests.xml");
             return hashes;
-        }        
+        }
 
     }
 }

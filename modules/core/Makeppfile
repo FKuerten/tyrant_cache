@@ -1,7 +1,7 @@
 # Configuration section
 MODULE_NAME=core
 DEPENDENCIES=basics
-LIBS:=-lcrypto 
+LIBS:=-lcrypto++
 
 include scripts/objectsMakeppfile.mk
 include scripts/version.mk
