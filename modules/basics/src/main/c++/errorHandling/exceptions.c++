@@ -108,7 +108,7 @@ void Exception::printStacktrace(std::ostream & os) const throw() {
 
 LogicError::LogicError(std::string const & what)
 : std::logic_error(what)
-, Exception(what)
+, Exception(what,1)
 {
 }
 
@@ -120,7 +120,7 @@ LogicError::LogicError(std::string const & what, unsigned int const skipSymbols)
 
 RuntimeError::RuntimeError(std::string const & what)
 : std::runtime_error(what)
-, Exception(what)
+, Exception(what,1)
 {
 }
 

@@ -287,7 +287,9 @@ namespace TyrantCache {
                 is.get(*(ssWord.rdbuf()), ':');
                 is.get(); // discard the ':'
                 std::string const word = ssWord.str();
-                assertX(is.good());
+                if (!is.good()) {
+                    throw InvalidUserInputError("Every deck description must begin with an identifier followed by ':'");
+                }
                 // word contains an identifier, the stream is after the ':'
                 return switchOnIdentifier(word, is);
             }

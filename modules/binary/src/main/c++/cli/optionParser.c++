@@ -92,8 +92,8 @@ namespace TyrantCache {
 
                 po::notify(vm);
 
-                std::clog << "cache-read:  " << cacheRead << std::endl;
-                std::clog << "cache-write: " << cacheWrite << std::endl;
+                //std::clog << "cache-read:  " << cacheRead << std::endl;
+                //std::clog << "cache-write: " << cacheWrite << std::endl;
                 
                 // check some argument relation
                 if (attacker.empty()) {
