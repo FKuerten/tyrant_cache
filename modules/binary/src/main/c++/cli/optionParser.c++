@@ -75,7 +75,7 @@ namespace TyrantCache {
                     )
                     ("raid-rules"
                     ,po::bool_switch(&useRaidRules)->default_value(false)
-                    ,"use raid rules"
+                    ,"force use of raid rules (default: raid rules will be used if one deck is a raid deck)"
                     )
                 ;
 
@@ -119,8 +119,10 @@ namespace TyrantCache {
                 }
                 command->task.surge = surge;
                 command->task.battleGround = battleGroundId;
-                command->task.numberOfRounds = !useRaidRules ? 50 : 30;                
-                command->task.useRaidRules = useRaidRules;
+                command->task.numberOfRounds = -1;
+                if (useRaidRules) {
+                    command->task.useRaidRules = Core::tristate::TRUE;
+                }
                 command->task.achievement = achievementId;
                 return command;
              } catch (boost::program_options::required_option &e) {

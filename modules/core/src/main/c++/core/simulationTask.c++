@@ -9,9 +9,8 @@ namespace TyrantCache {
         , delayFirstAttacker(false)
         , battleGround(-1)
         , achievement(-1)
-        , randomSeed(0)
-        , numberOfRounds(50)
-        , useRaidRules(false)
+        , numberOfRounds(-1)
+        , useRaidRules(tristate::UNDEFINED)
         {
         }
     }

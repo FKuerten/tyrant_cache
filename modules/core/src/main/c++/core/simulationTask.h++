@@ -6,6 +6,12 @@
     namespace TyrantCache {
         namespace Core {
 
+            enum class tristate {
+                TRUE,
+                FALSE,
+                UNDEFINED
+            };
+
             typedef DeckTemplate::Ptr DeckDescription;
             typedef signed int BattlegroundId;
             typedef signed int AchievementId;
@@ -17,9 +23,8 @@
                     bool delayFirstAttacker;
                     BattlegroundId battleGround;
                     AchievementId achievement;
-                    unsigned int randomSeed;
-                    unsigned int numberOfRounds;
-                    bool useRaidRules;
+                    int numberOfRounds;
+                    tristate useRaidRules;
 
                     DeckDescription attacker;
                     DeckDescription defender;

@@ -38,7 +38,7 @@ namespace TyrantCache {
                 ssCreateTable << ", " << "battleGroundId int DEFAULT 0";
                 ssCreateTable << ", " << "achievementId int DEFAULT -1";
                 ssCreateTable << ", " << "numberOfRounds int DEFAULT 50";
-                ssCreateTable << ", " << "useRaidRules bool NOT NULL";
+                ssCreateTable << ", " << "useRaidRules bool";
                 ssCreateTable << ", " << "numberOfGames int NOT NULL";
                 ssCreateTable << ", " << "gamesWon int NOT NULL";
                 ssCreateTable << ", " << "gamesStalled int NOT NULL";
@@ -220,7 +220,13 @@ namespace TyrantCache {
             this->selectStatement->bindInt(8, task.battleGround);
             this->selectStatement->bindInt(9, task.achievement);
             this->selectStatement->bindInt(10, task.numberOfRounds);
-            this->selectStatement->bindInt(11, task.useRaidRules);
+            if (task.useRaidRules == Core::tristate::UNDEFINED) {
+                this->selectStatement->bindNull(11);
+            } else if (task.useRaidRules == Core::tristate::TRUE) {
+                this->selectStatement->bindInt(11, true);
+            } else {
+                this->selectStatement->bindInt(11, false);
+            }
             S::SQLResults sqlResults = this->selectStatement->query();
             C::SimulationResult result;
 
@@ -262,7 +268,13 @@ namespace TyrantCache {
                 this->insertStatement->bindInt(8, task.battleGround);
                 this->insertStatement->bindInt(9, task.achievement);
                 this->insertStatement->bindInt(10, task.numberOfRounds);
-                this->insertStatement->bindInt(11, task.useRaidRules);
+                if (task.useRaidRules == Core::tristate::UNDEFINED) {
+                    this->selectStatement->bindNull(11);
+                } else if (task.useRaidRules == Core::tristate::TRUE) {
+                    this->selectStatement->bindInt(11, true);
+                } else {
+                    this->selectStatement->bindInt(11, false);
+                }
                 this->insertStatement->bindInt(12, freshResult.numberOfGames);
                 this->insertStatement->bindInt(13, freshResult.gamesWon);
                 this->insertStatement->bindInt(14, freshResult.gamesStalled);
@@ -284,7 +296,6 @@ namespace TyrantCache {
                 unsigned long missingGames = task.minimalNumberOfGames - cached.numberOfGames;
                 C::SimulationTask remainderTask(task);
                 remainderTask.minimalNumberOfGames = missingGames;
-                remainderTask.randomSeed = rand_r(&(this->randomData));
                 C::SimulationResult fresh = this->delegate->simulate(remainderTask);
                 this->addToCache(remainderTask, fresh);
                 return cached + fresh;
@@ -350,7 +361,13 @@ namespace TyrantCache {
             statement->bindInt(7, task.battleGround);
             statement->bindInt(8, task.achievement);
             statement->bindInt(9, task.numberOfRounds);
-            statement->bindInt(10, task.useRaidRules);
+            if (task.useRaidRules == Core::tristate::UNDEFINED) {
+                this->selectStatement->bindNull(11);
+            } else if (task.useRaidRules == Core::tristate::TRUE) {
+                this->selectStatement->bindInt(11, true);
+            } else {
+                this->selectStatement->bindInt(11, false);
+            }
 
             S::SQLResults sqlResults = statement->query();
             std::map<std::string, C::SimulationResult> results;

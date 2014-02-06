@@ -200,6 +200,21 @@ namespace TyrantCache {
                 isRaid = true;
             }
 
+            // A.34 delay first attacker
+            if (task.delayFirstAttacker) {
+                throw LogicError("Tyrant Optimize binding does not support delay first attacker.");
+            }
+
+            // A.36 raid rules
+            if (task.useRaidRules != Core::tristate::UNDEFINED && !isRaid) {
+                throw LogicError("Tyrant Optimize binding does not support force raid rules.");
+            }
+
+            // A.37 number of rounds
+            if (task.numberOfRounds != -1) {
+                command << " " << " -turnlimit " << task.numberOfRounds;
+            }
+
             std::clog << "Command: " << std::endl;
             std::clog << command.str();
             std::clog << std::endl;
