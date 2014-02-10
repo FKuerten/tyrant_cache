@@ -38,7 +38,7 @@ namespace TyrantCache {
             std::cout << std::endl;
 
             // commit-ish
-            std::cout << "iteratedecks-cli3 version hash:" << std::endl;
+            std::cout << "tyrantCache version hash:" << std::endl;
             std::cout << '\t' << TYRANT_CACHE_VERSION;
             if (TYRANT_CACHE_DIRTY_HEAD) {
                 std::cout << "+";
