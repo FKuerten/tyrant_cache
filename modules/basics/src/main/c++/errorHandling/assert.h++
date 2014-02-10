@@ -1,5 +1,5 @@
-#ifndef TYRANT_CACHE_ERROR_HANDLING_ASSERT_HPP
-#define TYRANT_CACHE_ERROR_HANDLING_ASSERT_HPP
+#ifndef PRAETORIAN_BASICS_ERROR_HANDLING_ASSERT_HPP
+#define PRAETORIAN_BASICS_ERROR_HANDLING_ASSERT_HPP
 
     /**
      * This module provides assertion macros for easy assertion testing.
@@ -7,7 +7,7 @@
      * will still be defined but resolve to an empty expression.)
      */
 
-    #include <string>    
+    #include <string>
     //#include <cmath>
     #include "exceptions.h++"
 

@@ -51,7 +51,7 @@ namespace TyrantCache {
                             , public C::MissionIdDeckTemplate::Visitor
                             , public C::RaidDeckTemplate::Visitor
                             , public C::QuestDeckTemplate::Visitor
-                            , public ::TyrantCache::Visitor::AcyclicVisitor
+                            , public Praetorian::Basics::Visitor::AcyclicVisitor
         {
             private:
                 std::string result;

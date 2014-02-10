@@ -11,7 +11,7 @@
             class DeckTemplate {
                 public:
                     typedef std::shared_ptr<DeckTemplate> Ptr;
-                    typedef std::shared_ptr<DeckTemplate const> ConstPtr;                    
+                    typedef std::shared_ptr<DeckTemplate const> ConstPtr;
 
                 protected:
                     DeckTemplate();
@@ -24,10 +24,10 @@
                      * Visitor stuff.
                      * We use the acyclic visitor pattern.
                      */
-                    virtual void accept(Visitor::AcyclicVisitor & visitor) = 0;
+                    virtual void accept(Praetorian::Basics::Visitor::AcyclicVisitor & visitor) = 0;
             };
 
         }
     }
-    
+
 #endif

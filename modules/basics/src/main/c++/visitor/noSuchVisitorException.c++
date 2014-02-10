@@ -1,12 +1,14 @@
 #include "noSuchVisitorException.h++"
 
-namespace TyrantCache {
-    namespace Visitor {
+namespace Praetorian {
+    namespace Basics {
+        namespace Visitor {
 
-        NoSuchVisitorException::NoSuchVisitorException()
-        : LogicError("No such visitor.",1)
-        {
+            NoSuchVisitorException::NoSuchVisitorException()
+            : LogicError("No such visitor.",1)
+            {
+            }
+
         }
-    
     }
 }

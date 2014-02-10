@@ -1,14 +1,16 @@
-#ifndef TYRANT_CACHE_VISITOR_ACYCLICVISITOR_HPP
-    #define TYRANT_CACHE_VISITOR_ACYCLICVISITOR_HPP
+#ifndef PRAETORIAN_BASICS_VISITOR_ACYCLICVISITOR_HPP
+    #define PRAETORIAN_BASICS_VISITOR_ACYCLICVISITOR_HPP
 
-    namespace TyrantCache {
-        namespace Visitor {
+    namespace Praetorian {
+        namespace Basics {
+            namespace Visitor {
 
-            class AcyclicVisitor {
-                public:
-                    virtual ~AcyclicVisitor();
-            };
-            
+                class AcyclicVisitor {
+                    public:
+                        virtual ~AcyclicVisitor();
+                };
+
+            }
         }
     }
 
@@ -23,14 +25,14 @@
 
     #define CREATE_VISITOR_METHOD(ClassName) \
     void \
-    ClassName::accept(::TyrantCache::Visitor::AcyclicVisitor & visitor) \
+    ClassName::accept(::Praetorian::Basics::Visitor::AcyclicVisitor & visitor) \
     { \
         if (ClassName::Visitor* correctVisitor = dynamic_cast<ClassName::Visitor*>(&visitor)) { \
             correctVisitor->visit(*this); \
         } else { \
-            throw ::TyrantCache::Visitor::NoSuchVisitorException(); \
+            throw ::Praetorian::Basics::Visitor::NoSuchVisitorException(); \
         } \
     }
 
-    
+
 #endif

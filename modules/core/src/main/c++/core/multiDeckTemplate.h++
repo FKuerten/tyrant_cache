@@ -18,7 +18,7 @@
                     MultiDeckTemplate(std::multiset<DeckTemplate::Ptr> const & decks);
                     virtual operator std::string() const;
 
-                    virtual void accept(::TyrantCache::Visitor::AcyclicVisitor & visitor);
+                    virtual void accept(Praetorian::Basics::Visitor::AcyclicVisitor & visitor);
                     
                     std::multiset<DeckTemplate::Ptr> const & getDecks() const;
                 

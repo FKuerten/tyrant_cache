@@ -1,11 +1,13 @@
 #include "acyclicVisitor.h++"
 
-namespace TyrantCache {
-    namespace Visitor {
+namespace Praetorian {
+    namespace Basics {
+        namespace Visitor {
 
-        AcyclicVisitor::~AcyclicVisitor()
-        {
+            AcyclicVisitor::~AcyclicVisitor()
+            {
+            }
+
         }
-
     }
 }
