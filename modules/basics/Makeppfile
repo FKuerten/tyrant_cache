@@ -1,7 +1,7 @@
 # Configuration section
 MODULE_NAME=basics
 DEPENDENCIES=
-LIBS:=
+LIBS:=-ldl
 
 include scripts/objectsMakeppfile.mk
 include scripts/version.mk
