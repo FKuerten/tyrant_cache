@@ -19,6 +19,7 @@
 
                 private:
                     Cache::DiskBackedCache::Ptr simulator;
+                    bool aborted;
 
                 public:
                     void setCacheWrite(bool cacheWrite);

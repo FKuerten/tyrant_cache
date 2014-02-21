@@ -104,7 +104,7 @@ namespace TyrantCache {
                     }
                     return ssBase64Minus.str();
                 }
-                
+
                 virtual void visit(Core::AutoDeckTemplate & autoDeckTemplate) override
                 {
                     this->result = idsToBase64Minus(autoDeckTemplate.commanderId, autoDeckTemplate.cards.begin(), autoDeckTemplate.cards.end());
@@ -136,7 +136,7 @@ namespace TyrantCache {
                     ssResult << questDeckTemplate.questId;
                     this->result = ssResult.str();
                 }
-                
+
             public:
                 std::string getResult() const { return this->result; }
                 bool isOrdered() const { return this->ordered; }
@@ -157,14 +157,16 @@ namespace TyrantCache {
         Core::SimulationResult
         TyrantOptimizerCLI::simulate(Core::SimulationTask const & task)
         {
-            assertX(!this->theProgram.is_open());
+            assertX(!this->theProgram);
+            redi::ipstream theProgram;
+            this->theProgram = &theProgram;
 
             // A Build the command:
             std::stringstream command;
 
             // A.0 We start with the executable.
             command << executable;
-                        
+
             // A.10 the decks
             // TODO need something more standardized than passing literal input values
             // TODO also order
@@ -219,22 +221,24 @@ namespace TyrantCache {
             //std::clog << "Command: " << std::endl;
             //std::clog << command.str();
             //std::clog << std::endl;
-            this->theProgram.open(command.str());
+            this->theProgram->open(command.str());
 
             std::stringstream ssResult;
             std::string line;
-            while(std::getline(this->theProgram, line)) {
+            while(std::getline(*(this->theProgram), line)) {
                 ssResult << line << std::endl;
-                //std::clog << line << std::endl;
             }
-            this->theProgram.close();
-            int exitCode = this->theProgram.rdbuf()->status();
-            //std::clog << "exit code: " << exitCode << std::endl;
+            this->theProgram->close();
+            std::string sResult = ssResult.str();
+            int exitCode = this->theProgram->rdbuf()->status();
+            this->theProgram = nullptr;
 
             if (exitCode != 0) {
                 std::stringstream ssMessage;
-                ssMessage << "Simulation failed. Reason:" << std::endl;
-                ssMessage << ssResult.str();
+                ssMessage << "Simulation failed. Exit code " << exitCode << " (" << (exitCode % 256) << ")" << std::endl;
+                ssMessage << "Command was " << command.str() << std::endl;
+                ssMessage << "Result is: " << std::endl;
+                ssMessage << sResult << std::endl;
                 throw RuntimeError(ssMessage.str());
             }
 
@@ -253,7 +257,7 @@ namespace TyrantCache {
                         } else {
                             simulationResult.gamesStalled = boost::lexical_cast<unsigned int>(match.str(2));
                         }
-                    } 
+                    }
                 } else if (boost::starts_with(line, "stall%: ")) {
                     assertX(!isRaid);
                     boost::smatch match;
@@ -262,7 +266,7 @@ namespace TyrantCache {
                     if (boost::regex_match(line, match, regex)) {
                         simulationResult.gamesStalled = boost::lexical_cast<unsigned int>(match.str(2));
                     }
-                } else if (boost::starts_with(line, "loss%: ")) {                    
+                } else if (boost::starts_with(line, "loss%: ")) {
                     boost::smatch match;
                     std::string sRegex = "loss%: (.+) \\((.+) / (.+)\\)";
                     boost::regex regex{sRegex};
@@ -287,9 +291,15 @@ namespace TyrantCache {
                         simulationResult.pointsAttackerAuto = simulationResult.pointsAttacker;
                     }
                 }
-            }                
+            }
             if (isRaid) {
-                assertGT(simulationResult.gamesStalled, simulationResult.gamesWon);
+                if (simulationResult.gamesStalled < simulationResult.gamesWon) {
+                    std::clog << std::endl;
+                    std::clog << "Commandline was: " << command.str() << std::endl;
+                    std::clog << "Result is: " << std::endl;
+                    std::clog << sResult << std::endl;
+                    assertGE(simulationResult.gamesStalled, simulationResult.gamesWon);
+                }
                 simulationResult.gamesStalled -= simulationResult.gamesWon;
             }
             simulationResult.numberOfGames = simulationResult.gamesWon
@@ -298,11 +308,13 @@ namespace TyrantCache {
             //std::clog << std::flush;
             return simulationResult;
         }
-        
+
         void
         TyrantOptimizerCLI::abort()
         {
-            this->theProgram.rdbuf()->kill(SIGINT);
+            if (this->theProgram) {
+                this->theProgram->rdbuf()->kill(SIGINT);
+            }
         }
 
     }

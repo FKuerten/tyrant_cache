@@ -16,6 +16,7 @@ namespace TyrantCache {
         : Command(configuration)
         , attackerFromStdIn(false)
         , defenderFromStdIn(false)
+        , aborted(false)
         {
             // the core
             C::SimulatorCore::Ptr simulator = configuration.constructCore();
@@ -49,7 +50,7 @@ namespace TyrantCache {
                 }
                 std::string line;
                 int returnCode = 0;
-                while (std::getline(std::cin, line)) {
+                while (std::getline(std::cin, line) && !this->aborted) {
                     Core::SimulationTask task2(this->task);
                     if (this->attackerFromStdIn && this->defenderFromStdIn) {
                         std::stringstream ssLine(line);
@@ -123,6 +124,7 @@ namespace TyrantCache {
         RunCommand::abort()
         {
             this->simulator->abort();
+            this->aborted = true;
         }
 
         void

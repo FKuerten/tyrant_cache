@@ -9,8 +9,8 @@
 
             class TyrantOptimizerCLI : public Tyrant::Core::SimulatorCore {
                 private:
-                    redi::ipstream theProgram;
-                
+                    redi::ipstream * theProgram;
+
                 public:
                     virtual Tyrant::Core::SimulationResult simulate(Tyrant::Core::SimulationTask const & task);
                     virtual void abort();
