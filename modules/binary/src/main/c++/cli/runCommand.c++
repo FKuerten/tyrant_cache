@@ -32,13 +32,14 @@ namespace TyrantCache {
         {
         }
 
+        static unsigned int const dw(40);
         int RunCommand::execute()
         {
             if (this->attackerFromStdIn || this->defenderFromStdIn) {
                 if (this->configuration.verbosity == 0) {
                     std::cout << std::left
-                              << std::setw(20) << "attacker deck" << " "
-                              << std::setw(20) << "defender deck" << " "
+                              << std::setw(dw) << "attacker deck" << " "
+                              << std::setw(dw) << "defender deck" << " "
                               << std::setw(10) << "games won" << " "
                               << std::setw(10) << "stalled" << " "
                               << std::setw(10) << "games lost" << " "
@@ -80,8 +81,8 @@ namespace TyrantCache {
             unsigned int const verbosity = this->configuration.verbosity;
             if (verbosity == 0) {
                 std::cout << std::left
-                          << std::setw(20) <<  std::string(*task.attacker) << " "
-                          << std::setw(20) << std::string(*task.defender) << " "
+                          << std::setw(dw) << std::string(*task.attacker) << " "
+                          << std::setw(dw) << std::string(*task.defender) << " "
                           ;
             }
 
