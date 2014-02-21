@@ -20,6 +20,7 @@ namespace TyrantCache {
                 Configuration configuration;
                 unsigned int numberOfIterations;
                 std::string attacker, defender;
+                bool attackerFromStdIn, defenderFromStdIn;
                 bool surge;
                 int battleGroundId;
                 int achievementId;
@@ -41,9 +42,17 @@ namespace TyrantCache {
                     ,po::value<std::string>(&attacker)->default_value(std::string())
                     ,"the attacker"
                     )
+                    ("attacker-from-stdin"
+                    ,po::bool_switch(&attackerFromStdIn)->default_value(false)
+                    ,"read attacker decks from stdin"
+                    )
                     ("defender"
                     ,po::value<std::string>(&defender)->default_value(std::string())
                     ,"the defender"
+                    )
+                    ("defender-from-stdin"
+                    ,po::bool_switch(&defenderFromStdIn)->default_value(false)
+                    ,"read defender decks from stdin"
                     )
                     ("surge"
                     ,po::bool_switch(&surge)->default_value(false)
@@ -56,7 +65,7 @@ namespace TyrantCache {
                     ("achievement-id"
                     ,po::value<int>(&achievementId)->default_value(-1)
                     ,"id of the achievement to check"
-                    )                   
+                    )
                     ("cache-read"
                     ,po::bool_switch(&cacheRead)->default_value(true)
                     ,"read from the cache"
@@ -94,21 +103,27 @@ namespace TyrantCache {
 
                 //std::clog << "cache-read:  " << cacheRead << std::endl;
                 //std::clog << "cache-write: " << cacheWrite << std::endl;
-                
+
                 // check some argument relation
-                if (attacker.empty()) {
+                if (attacker.empty() && !attackerFromStdIn) {
                     throw InvalidUserInputError("Need an attacker.");
-                } else if (defender.empty()) {
+                } else if (defender.empty() && !defenderFromStdIn) {
                     throw InvalidUserInputError("Need a defender.");
+                } else if (!attacker.empty() && attackerFromStdIn) {
+                    throw InvalidUserInputError("Can not supply both --attacker and --attacker-from-stdin.");
+                } else if (!defender.empty() && defenderFromStdIn) {
+                    throw InvalidUserInputError("Can not supply both --defender and --defender-from-stdin.");
                 }
 
                 configuration.verbosity = vm.count("verbose");
 
                 RunCommand::Ptr command = RunCommand::Ptr(
-                    new RunCommand(configuration)                                    
+                    new RunCommand(configuration)
                 );
                 command->setCacheRead (cacheRead);
                 command->setCacheWrite(cacheWrite);
+                command->attackerFromStdIn = attackerFromStdIn;
+                command->defenderFromStdIn = defenderFromStdIn;
 
                 command->task.minimalNumberOfGames = numberOfIterations;
                 if (!attacker.empty()) {

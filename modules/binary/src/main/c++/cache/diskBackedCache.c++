@@ -211,6 +211,8 @@ namespace TyrantCache {
         DiskBackedCache::loadCache(C::SimulationTask const & task
                                   )
         {
+            assertX(task.attacker);
+            assertX(task.defender);
             if(!this->readFromCache) {
                 return C::SimulationResult();
             }
@@ -292,6 +294,8 @@ namespace TyrantCache {
         DiskBackedCache::simulate(C::SimulationTask const & task
                                  )
         {
+            assertX(task.attacker);
+            assertX(task.defender);
             C::SimulationResult cached = loadCache(task);
             if (cached.numberOfGames < task.minimalNumberOfGames) {
                 unsigned long missingGames = task.minimalNumberOfGames - cached.numberOfGames;

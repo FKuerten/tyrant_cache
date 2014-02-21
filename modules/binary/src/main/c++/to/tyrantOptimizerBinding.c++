@@ -216,18 +216,16 @@ namespace TyrantCache {
                 command << " " << " -turnlimit " << task.numberOfRounds;
             }
 
-            std::clog << "Command: " << std::endl;
-            std::clog << command.str();
-            std::clog << std::endl;
-            //std::clog << "Result: " << std::endl;
-            //this->theProgram.open(executable, arguments);
+            //std::clog << "Command: " << std::endl;
+            //std::clog << command.str();
+            //std::clog << std::endl;
             this->theProgram.open(command.str());
 
             std::stringstream ssResult;
             std::string line;
             while(std::getline(this->theProgram, line)) {
                 ssResult << line << std::endl;
-                std::clog << line << std::endl;
+                //std::clog << line << std::endl;
             }
             this->theProgram.close();
             int exitCode = this->theProgram.rdbuf()->status();
@@ -240,7 +238,7 @@ namespace TyrantCache {
                 throw RuntimeError(ssMessage.str());
             }
 
-            std::clog << std::endl;
+            //std::clog << std::endl;
 
             // Parse the result
             Core::SimulationResult simulationResult;
