@@ -5,7 +5,7 @@
     #include <memory>
     #include <visitor/acyclicVisitor.h++>
 
-    namespace TyrantCache {
+    namespace Tyrant {
         namespace Core {
 
             class DeckTemplate {

@@ -4,7 +4,7 @@
 #include "../cache/diskBackedCache.h++"
 #include <iomanip>
 
-namespace C = TyrantCache::Core;
+namespace C = Tyrant::Core;
 namespace Cache = TyrantCache::Cache;
 namespace TyrantCache {
     namespace CLI {

@@ -1,6 +1,6 @@
 #include "simulationResult.h++"
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         SimulationResult::SimulationResult()

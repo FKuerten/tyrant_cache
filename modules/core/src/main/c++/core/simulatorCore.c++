@@ -6,7 +6,7 @@
 #include <fstream>
 #include <map>
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         SimulatorCore::~SimulatorCore() {}

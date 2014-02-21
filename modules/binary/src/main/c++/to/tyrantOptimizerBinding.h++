@@ -4,16 +4,15 @@
     #include <core/simulatorCore.h++>
     #include <pstreams/pstream.h>
 
-    namespace C = TyrantCache::Core;
     namespace TyrantCache {
         namespace TO {
 
-            class TyrantOptimizerCLI : public C::SimulatorCore {
+            class TyrantOptimizerCLI : public Tyrant::Core::SimulatorCore {
                 private:
                     redi::ipstream theProgram;
                 
                 public:
-                    virtual C::SimulationResult simulate(C::SimulationTask const & task);
+                    virtual Tyrant::Core::SimulationResult simulate(Tyrant::Core::SimulationTask const & task);
                     virtual void abort();
                     virtual std::string getCoreName() const;
                     virtual std::string getCoreVersion() const;

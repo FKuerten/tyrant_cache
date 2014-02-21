@@ -1,10 +1,10 @@
-#ifndef TYRANT_CACHE_CORE_QUESTDECK_HPP
-    #define TYRANT_CACHE_CORE_QUESTDECK_HPP
+#ifndef TYRANT_CORE_QUESTDECKTEMPLATE_HPP
+    #define TYRANT_CORE_QUESTDECKTEMPLATE_HPP
 
 #include <memory>
 #include "deckTemplate.h++"
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         class QuestDeckTemplate : public DeckTemplate {

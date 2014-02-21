@@ -1,7 +1,7 @@
 #include "multiDeckTemplate.h++"
 #include <sstream>
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         MultiDeckTemplate::MultiDeckTemplate(
@@ -21,7 +21,7 @@ namespace TyrantCache {
                 ssString << ';';
             }
             return ssString.str();
-        }		
+        }
 
         std::multiset<DeckTemplate::Ptr> const &
         MultiDeckTemplate::getDecks() const

@@ -3,7 +3,7 @@
 
     #include <core/simulatorCore.h++>
 
-    namespace Core = TyrantCache::Core;
+    namespace Core = Tyrant::Core;
     namespace TyrantCache {
         namespace CLI {
 

@@ -1,7 +1,7 @@
 #include "missionIdDeckTemplate.h++"
 #include <boost/lexical_cast.hpp>
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         MissionIdDeckTemplate::MissionIdDeckTemplate(unsigned int missionId)

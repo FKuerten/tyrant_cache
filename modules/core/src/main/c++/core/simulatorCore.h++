@@ -8,7 +8,7 @@
     #include "simulationResult.h++"
     #include "simulationTask.h++"
         
-    namespace TyrantCache {
+    namespace Tyrant {
         namespace Core {
                                     
             class SimulatorCore {

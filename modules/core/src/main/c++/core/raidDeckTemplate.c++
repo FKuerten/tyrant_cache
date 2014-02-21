@@ -2,7 +2,7 @@
 
 #include <boost/lexical_cast.hpp>
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         RaidDeckTemplate::RaidDeckTemplate(unsigned int raidId)

@@ -2,13 +2,13 @@
 
 #include <boost/lexical_cast.hpp>
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         QuestDeckTemplate::QuestDeckTemplate(unsigned int questId)
         : questId(questId)
         {
-        }        
+        }
 
         QuestDeckTemplate::operator std::string() const
         {

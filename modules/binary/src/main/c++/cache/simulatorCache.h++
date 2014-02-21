@@ -8,7 +8,7 @@
     // For std::shared_ptr
     #include <memory>
 
-    namespace C = TyrantCache::Core;
+    namespace C = Tyrant::Core;
     namespace TyrantCache {
         namespace Cache {
     

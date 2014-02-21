@@ -1,11 +1,11 @@
-#ifndef TYRANT_CACHE_CORE_MISSIONIDTEMPLATE_HPP
-    #define TYRANT_CACHE_CORE_MISSIONIDTEMPLATE_HPP
+#ifndef TYRANT_CORE_MISSIONIDDECKTEMPLATE_HPP
+    #define TYRANT_CORE_MISSIONIDDECKTEMPLATE_HPP
 
     #include <memory>
     #include <list>
     #include "deckTemplate.h++"
 
-    namespace TyrantCache {
+    namespace Tyrant {
         namespace Core {
 
             class MissionIdDeckTemplate : public DeckTemplate {

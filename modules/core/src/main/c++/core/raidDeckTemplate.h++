@@ -1,10 +1,10 @@
-#ifndef TYRANT_CACHE_CORE_RAIDDECK_HPP
-    #define TYRANT_CACHE_CORE_RAIDDECK_HPP
+#ifndef TYRANT_CORE_RAIDDECKTEMPLATE_HPP
+    #define TYRANT_CORE_RAIDDECKTEMPLATE_HPP
 
 #include <memory>
 #include "deckTemplate.h++"
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         class RaidDeckTemplate : public DeckTemplate {

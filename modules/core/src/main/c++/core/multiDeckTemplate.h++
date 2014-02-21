@@ -1,11 +1,11 @@
-#ifndef TYRANT_CACHE_CORE_MULTIDECKTEMPLATE_HPP
-    #define TYRANT_CACHE_CORE_MULTIDECKTEMPLATE_HPP
+#ifndef TYRANT_CORE_MULTIDECKTEMPLATE_HPP
+    #define TYRANT_CORE_MULTIDECKTEMPLATE_HPP
 
     #include <memory>
     #include <set>
     #include "deckTemplate.h++"
 
-    namespace TyrantCache {
+    namespace Tyrant {
         namespace Core {
 
             class MultiDeckTemplate : public DeckTemplate {
@@ -19,9 +19,9 @@
                     virtual operator std::string() const;
 
                     virtual void accept(Praetorian::Basics::Visitor::AcyclicVisitor & visitor);
-                    
+
                     std::multiset<DeckTemplate::Ptr> const & getDecks() const;
-                
+
             };
 
         }

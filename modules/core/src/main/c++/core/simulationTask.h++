@@ -2,8 +2,8 @@
     #define TYRANT_CACHE_CORE_SIMULATIONTASK_HPP
 
     #include "deckTemplate.h++"
-        
-    namespace TyrantCache {
+
+    namespace Tyrant {
         namespace Core {
 
             enum class tristate {
@@ -15,7 +15,7 @@
             typedef DeckTemplate::Ptr DeckDescription;
             typedef signed int BattlegroundId;
             typedef signed int AchievementId;
-                        
+
             struct SimulationTask {
                 public:
                     unsigned long minimalNumberOfGames;
@@ -35,4 +35,4 @@
         }
     }
 #endif
-    
+

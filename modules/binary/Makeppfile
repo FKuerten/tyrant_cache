@@ -1,8 +1,9 @@
 # Configuration section
-MODULE_NAME=
+MODULE_NAME=tyrantCache
 DEPENDENCIES=core basics
 LIBS:=-lboost_program_options -lsqlite3 -lboost_regex
 
+PROJECT_NAME=${MODULE_NAME}
 include scripts/objectsMakeppfile.mk
 include scripts/version.mk
 

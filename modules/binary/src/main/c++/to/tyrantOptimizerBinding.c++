@@ -17,6 +17,7 @@
 
 std::string const executable = "./tyrant_optimize";
 
+namespace Core = Tyrant::Core;
 namespace TyrantCache {
     namespace TO {
 
@@ -46,11 +47,11 @@ namespace TyrantCache {
             return executable;
         }
 
-        class TODeckVisitor : public C::AutoDeckTemplate::Visitor
+        class TODeckVisitor : public Core::AutoDeckTemplate::Visitor
                             , public ::TyrantCache::CLI::SimpleOrderedDeckTemplate::Visitor
-                            , public C::MissionIdDeckTemplate::Visitor
-                            , public C::RaidDeckTemplate::Visitor
-                            , public C::QuestDeckTemplate::Visitor
+                            , public Core::MissionIdDeckTemplate::Visitor
+                            , public Core::RaidDeckTemplate::Visitor
+                            , public Core::QuestDeckTemplate::Visitor
                             , public Praetorian::Basics::Visitor::AcyclicVisitor
         {
             private:
@@ -104,14 +105,14 @@ namespace TyrantCache {
                     return ssBase64Minus.str();
                 }
                 
-                virtual void visit(C::AutoDeckTemplate & autoDeckTemplate) override
+                virtual void visit(Core::AutoDeckTemplate & autoDeckTemplate) override
                 {
-                    this->result = idsToBase64Minus(autoDeckTemplate.commander, autoDeckTemplate.cards.begin(), autoDeckTemplate.cards.end());
+                    this->result = idsToBase64Minus(autoDeckTemplate.commanderId, autoDeckTemplate.cards.begin(), autoDeckTemplate.cards.end());
                 }
                 virtual void visit(CLI::SimpleOrderedDeckTemplate & simpleOrderedDeckTemplate) override
                 {
                     this->ordered = true;
-                    this->result = idsToBase64Minus(simpleOrderedDeckTemplate.commander, simpleOrderedDeckTemplate.cards.begin(), simpleOrderedDeckTemplate.cards.end());
+                    this->result = idsToBase64Minus(simpleOrderedDeckTemplate.commanderId, simpleOrderedDeckTemplate.cards.begin(), simpleOrderedDeckTemplate.cards.end());
                 }
                 virtual void visit(Core::MissionIdDeckTemplate & missionIdDeckTemplate) override
                 {
@@ -143,7 +144,7 @@ namespace TyrantCache {
         };
 
         std::tuple<std::string, bool, bool>
-        deckTemplateToTOArgument(C::DeckTemplate::Ptr deckTemplate)
+        deckTemplateToTOArgument(Core::DeckTemplate::Ptr deckTemplate)
         {
             TODeckVisitor visitor;
             deckTemplate->accept(visitor);
@@ -153,8 +154,8 @@ namespace TyrantCache {
             return std::make_tuple(deckDescription, isOrdered, isRaid);
         }
 
-        C::SimulationResult
-        TyrantOptimizerCLI::simulate(C::SimulationTask const & task)
+        Core::SimulationResult
+        TyrantOptimizerCLI::simulate(Core::SimulationTask const & task)
         {
             assertX(!this->theProgram.is_open());
 
@@ -242,7 +243,7 @@ namespace TyrantCache {
             std::clog << std::endl;
 
             // Parse the result
-            C::SimulationResult simulationResult;
+            Core::SimulationResult simulationResult;
             while(std::getline(ssResult, line)) {
                 if (boost::starts_with(line, "win%: ")) {
                     boost::smatch match;

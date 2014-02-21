@@ -1,12 +1,12 @@
 #include "deckTemplate.h++"
 
-namespace TyrantCache {
+namespace Tyrant {
     namespace Core {
 
         DeckTemplate::DeckTemplate()
         {}
 
         DeckTemplate::~DeckTemplate() {}
-        
+
     }
 }

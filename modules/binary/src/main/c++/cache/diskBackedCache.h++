@@ -7,7 +7,7 @@
     #include "simulatorCache.h++"
     #include "../sql/sqliteWrapper.h++"
 
-    namespace C = TyrantCache::Core;
+    namespace C = Tyrant::Core;
     namespace S = TyrantCache::SQL;
     namespace TyrantCache {
         namespace Cache {    

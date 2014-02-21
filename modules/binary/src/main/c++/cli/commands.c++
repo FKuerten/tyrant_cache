@@ -3,7 +3,7 @@
 #include <core/simulatorCore.h++>
 #include <errorHandling/assert.h++>
 
-namespace C = TyrantCache::Core;
+namespace C = Tyrant::Core;
 namespace TyrantCache {
     namespace CLI {
 
@@ -30,26 +30,26 @@ namespace TyrantCache {
         {
             //human readable
             std::cout << "human readable version description:" << std::endl;
-            std::cout << "\t" << TYRANT_CACHE_VERSION_DESCRIBE;
-            if (TYRANT_CACHE_DIRTY_HEAD) {
+            std::cout << "\t" << tyrantCache_VERSION_DESCRIBE;
+            if (tyrantCache_DIRTY_HEAD) {
                 std::cout << "+";
-                std::cout << TYRANT_CACHE_DIRTY_HASH;
+                std::cout << tyrantCache_DIRTY_HASH;
             }
             std::cout << std::endl;
 
             // commit-ish
             std::cout << "tyrantCache version hash:" << std::endl;
-            std::cout << '\t' << TYRANT_CACHE_VERSION;
-            if (TYRANT_CACHE_DIRTY_HEAD) {
+            std::cout << '\t' << tyrantCache_VERSION;
+            if (tyrantCache_DIRTY_HEAD) {
                 std::cout << "+";
-                std::cout << TYRANT_CACHE_DIRTY_HASH;
+                std::cout << tyrantCache_DIRTY_HASH;
             }
             std::cout << std::endl;
 
             // tags
-            if (!TYRANT_CACHE_DIRTY_HEAD) {
+            if (!tyrantCache_DIRTY_HEAD) {
                 std::cout << "Tags pointing at this version: " << std::endl;
-                std::cout << '\t' << TYRANT_CACHE_VERSION_TAGS << std::endl;
+                std::cout << '\t' << tyrantCache_VERSION_TAGS << std::endl;
             }
 
             // TODO Obviously if we want to allow exchangable core we would need a better way here.

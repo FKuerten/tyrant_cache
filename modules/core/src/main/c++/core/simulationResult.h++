@@ -1,7 +1,7 @@
 #ifndef TYRANT_CACHE_CORE_SIMULATIONRESULT_HPP
     #define TYRANT_CACHE_CORE_SIMULATIONRESULT_HPP
 
-    namespace TyrantCache {
+    namespace Tyrant {
         namespace Core {
 
             struct SimulationResult {

@@ -6,7 +6,7 @@
     #include "commands.h++"
     #include <memory>
 
-    namespace C = TyrantCache::Core;
+    namespace Core = Tyrant::Core;
     namespace Cache = TyrantCache::Cache;
     namespace TyrantCache {
         namespace CLI {
@@ -15,7 +15,7 @@
                 public:
                     typedef std::shared_ptr<RunCommand> Ptr;
                 public:
-                    C::SimulationTask task;
+                    Core::SimulationTask task;
                 private:
                     Cache::DiskBackedCache::Ptr simulator;
                 public:

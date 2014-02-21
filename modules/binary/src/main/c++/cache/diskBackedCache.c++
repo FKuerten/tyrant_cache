@@ -2,6 +2,7 @@
 #include <sstream>
 #include <errorHandling/assert.h++>
 
+namespace Core = Tyrant::Core;
 namespace TyrantCache {
     namespace Cache {
 
