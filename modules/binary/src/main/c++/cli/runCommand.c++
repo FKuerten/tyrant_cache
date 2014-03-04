@@ -32,7 +32,7 @@ namespace TyrantCache {
         {
         }
 
-        static unsigned int const dw(40);
+        static unsigned int const dw(70);
         int RunCommand::execute()
         {
             if (this->attackerFromStdIn || this->defenderFromStdIn) {
