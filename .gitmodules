@@ -10,3 +10,6 @@
 [submodule "modules/cache/scripts"]
 	path = modules/cache/scripts
 	url = git@github.com:Pr4370r14n/praetorian-scripts.git
+[submodule "modules/cache"]
+	path = modules/cache
+	url = git@github.com:Pr4370r14n/tyrant-cache.git
