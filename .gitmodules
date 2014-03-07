@@ -7,3 +7,6 @@
 [submodule "modules/core"]
 	path = modules/core
 	url = git@github.com:Pr4370r14n/tyrant-core.git
+[submodule "modules/cache/scripts"]
+	path = modules/cache/scripts
+	url = git@github.com:Pr4370r14n/praetorian-scripts.git

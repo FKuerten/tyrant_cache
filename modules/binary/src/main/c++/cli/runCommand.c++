@@ -1,7 +1,7 @@
 #include "runCommand.h++"
 
 #include "configuration.h++"
-#include "../cache/diskBackedCache.h++"
+#include <cache/diskBackedCache.h++>
 #include <iomanip>
 #include "deckParser.h++"
 #include <errorHandling/assert.h++>

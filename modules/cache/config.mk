@@ -1,7 +1,7 @@
 # Configuration section
-MODULE_NAME=tyrantCache
-DEPENDENCIES=cache core basics
-LIBS:=-lboost_program_options -lsqlite3 -lboost_regex
+MODULE_NAME=cache
+DEPENDENCIES=basics core
+LIBS:=
 CXXFLAGS+= --std=c++11
 ARFLAGS:=crvs
 
