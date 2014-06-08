@@ -219,15 +219,24 @@ namespace TyrantCache {
                 command << " " << " -turnlimit " << task.numberOfRounds;
             }
 
-            //std::clog << "Command: " << std::endl;
-            //std::clog << command.str();
-            //std::clog << std::endl;
+            bool const DEBUG_TO = false;
+            if (DEBUG_TO) {
+                std::clog << "Command: " << std::endl;
+                std::clog << command.str();
+                std::clog << std::endl;
+            }
             this->theProgram->open(command.str());
 
+            if (DEBUG_TO) {
+                std::clog << "Result: " << std::endl;
+            }
             std::stringstream ssResult;
             std::string line;
             while(std::getline(*(this->theProgram), line)) {
                 ssResult << line << std::endl;
+                if (DEBUG_TO) {
+                    std::clog << line << std::endl;
+                }
             }
             this->theProgram->close();
             std::string sResult = ssResult.str();
