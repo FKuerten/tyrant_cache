@@ -1,8 +1,8 @@
 #include "simpleOrderedDeckTemplate.h++"
 #include <errorHandling/assert.h++>
 
-namespace TyrantCache {
-    namespace CLI {
+namespace Tyrant {
+    namespace Core {
 
         SimpleOrderedDeckTemplate::SimpleOrderedDeckTemplate(std::list<unsigned int> const & ids)
         : StaticDeckTemplate()

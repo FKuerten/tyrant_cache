@@ -10,7 +10,7 @@
 #include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
 #include <core/autoDeckTemplate.h++>
-#include "../cli/simpleOrderedDeckTemplate.h++"
+#include <core/simpleOrderedDeckTemplate.h++>
 #include <core/missionIdDeckTemplate.h++>
 #include <core/raidDeckTemplate.h++>
 #include <core/questDeckTemplate.h++>
@@ -48,7 +48,7 @@ namespace TyrantCache {
         }
 
         class TODeckVisitor : public Core::AutoDeckTemplate::Visitor
-                            , public ::TyrantCache::CLI::SimpleOrderedDeckTemplate::Visitor
+                            , public Core::SimpleOrderedDeckTemplate::Visitor
                             , public Core::MissionIdDeckTemplate::Visitor
                             , public Core::RaidDeckTemplate::Visitor
                             , public Core::QuestDeckTemplate::Visitor
@@ -105,23 +105,23 @@ namespace TyrantCache {
                     return ssBase64Minus.str();
                 }
 
-                virtual void visit(Core::AutoDeckTemplate & autoDeckTemplate) override
+                virtual void visit(Core::AutoDeckTemplate const & autoDeckTemplate) override
                 {
                     this->result = idsToBase64Minus(autoDeckTemplate.commanderId, autoDeckTemplate.cards.begin(), autoDeckTemplate.cards.end());
                 }
-                virtual void visit(CLI::SimpleOrderedDeckTemplate & simpleOrderedDeckTemplate) override
+                virtual void visit(Core::SimpleOrderedDeckTemplate const & simpleOrderedDeckTemplate) override
                 {
                     this->ordered = true;
                     this->result = idsToBase64Minus(simpleOrderedDeckTemplate.commanderId, simpleOrderedDeckTemplate.cards.begin(), simpleOrderedDeckTemplate.cards.end());
                 }
-                virtual void visit(Core::MissionIdDeckTemplate & missionIdDeckTemplate) override
+                virtual void visit(Core::MissionIdDeckTemplate const & missionIdDeckTemplate) override
                 {
                     std::stringstream ssResult;
                     ssResult << "Mission #";
                     ssResult << missionIdDeckTemplate.missionId;
                     this->result = ssResult.str();
                 }
-                virtual void visit(Core::RaidDeckTemplate & raidDeckTemplate) override
+                virtual void visit(Core::RaidDeckTemplate const & raidDeckTemplate) override
                 {
                     this->raid = true;
                     std::stringstream ssResult;
@@ -129,7 +129,7 @@ namespace TyrantCache {
                     ssResult << raidDeckTemplate.raidId;
                     this->result = ssResult.str();
                 }
-                virtual void visit(Core::QuestDeckTemplate & questDeckTemplate) override
+                virtual void visit(Core::QuestDeckTemplate const & questDeckTemplate) override
                 {
                     std::stringstream ssResult;
                     ssResult << "Quest #";
@@ -144,7 +144,7 @@ namespace TyrantCache {
         };
 
         std::tuple<std::string, bool, bool>
-        deckTemplateToTOArgument(Core::DeckTemplate::Ptr deckTemplate)
+        deckTemplateToTOArgument(Core::DeckTemplate::ConstPtr deckTemplate)
         {
             TODeckVisitor visitor;
             deckTemplate->accept(visitor);

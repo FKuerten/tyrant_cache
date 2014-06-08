@@ -3,13 +3,13 @@
 
     #include <memory>
     #include <list>
-    #include <core/staticDeckTemplate.h++>
+    #include "staticDeckTemplate.h++"
     #include <visitor/acyclicVisitor.h++>
-    
-    namespace TyrantCache {
-        namespace CLI {
 
-            class SimpleOrderedDeckTemplate : public Tyrant::Core::StaticDeckTemplate {
+    namespace Tyrant {
+        namespace Core {
+
+            class SimpleOrderedDeckTemplate : public StaticDeckTemplate {
                 public:
                     typedef std::shared_ptr<SimpleOrderedDeckTemplate> Ptr;
                     CREATE_VISITOR_INTERFACE(SimpleOrderedDeckTemplate);
