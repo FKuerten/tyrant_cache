@@ -5,6 +5,7 @@
 #include <iomanip>
 #include "deckParser.h++"
 #include <errorHandling/assert.h++>
+#include <iostream>
 
 namespace Core = Tyrant::Core;
 namespace Cache = Tyrant::Cache;

@@ -2,6 +2,7 @@
 #include <version.h++>
 #include <core/simulatorCore.h++>
 #include <errorHandling/assert.h++>
+#include <iostream>
 
 namespace C = Tyrant::Core;
 namespace TyrantCache {
