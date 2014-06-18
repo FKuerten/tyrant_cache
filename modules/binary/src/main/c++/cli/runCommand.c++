@@ -7,7 +7,7 @@
 #include <errorHandling/assert.h++>
 
 namespace Core = Tyrant::Core;
-namespace Cache = TyrantCache::Cache;
+namespace Cache = Tyrant::Cache;
 namespace TyrantCache {
     namespace CLI {
 

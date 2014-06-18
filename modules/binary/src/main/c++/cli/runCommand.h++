@@ -18,7 +18,7 @@
                     bool attackerFromStdIn, defenderFromStdIn;
 
                 private:
-                    Cache::DiskBackedCache::Ptr simulator;
+                    ::Tyrant::Cache::DiskBackedCache::Ptr simulator;
                     bool aborted;
 
                 public:
