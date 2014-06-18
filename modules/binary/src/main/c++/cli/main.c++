@@ -26,7 +26,7 @@ int main(int const argc, char * const * const argv)
 {
     try {
         TyrantCache::CLI::Command::Ptr command = TyrantCache::CLI::parseArguments(argc, argv);
-        
+
         ::theCommand = command;
         #ifdef _POSIX_SOURCE
             struct sigaction action, oldIntAction, oldTermAction;
