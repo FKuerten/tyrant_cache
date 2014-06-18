@@ -2,7 +2,7 @@
 
 #include <list>
 #include <core/autoDeckTemplate.h++>
-#include "simpleOrderedDeckTemplate.h++"
+#include <core/simpleOrderedDeckTemplate.h++>
 #include <errorHandling/assert.h++>
 #include <core/missionIdDeckTemplate.h++>
 #include <core/raidDeckTemplate.h++>
