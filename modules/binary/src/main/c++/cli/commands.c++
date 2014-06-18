@@ -62,7 +62,7 @@ namespace TyrantCache {
 
             std::cout << "XML data version: "       << std::endl;
             std::map<std::string,std::string> xmlHashes = core->getXMLVersions();
-            assertGT(xmlHashes.size(),0u);
+            assertGT(xmlHashes.size(),static_cast<std::size_t>(0u));
             for(std::map<std::string,std::string>::const_iterator iter = xmlHashes.begin()
                ;iter != xmlHashes.end()
                ;iter++

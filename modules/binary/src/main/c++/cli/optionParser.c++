@@ -115,7 +115,8 @@ namespace TyrantCache {
                     throw InvalidUserInputError("Can not supply both --defender and --defender-from-stdin.");
                 }
 
-                configuration.verbosity = vm.count("verbose");
+                // We may lose value here, but seriously, who is going to request verbosity more than maxint times?
+                configuration.verbosity = static_cast<int>(vm.count("verbose"));
 
                 RunCommand::Ptr command = RunCommand::Ptr(
                     new RunCommand(configuration)

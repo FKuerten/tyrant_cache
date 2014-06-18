@@ -42,11 +42,11 @@ int main(int const argc, char * const * const argv)
         command->execute();
 
         #ifdef _POSIX_SOURCE
-            sigaction(SIGINT, &oldIntAction, 0);
-            sigaction(SIGTERM, &oldTermAction, 0);
+            sigaction(SIGINT, &oldIntAction, nullptr);
+            sigaction(SIGTERM, &oldTermAction, nullptr);
             //std::clog << "Signal handlers removed." << std::endl;
         #endif
-        ::theCommand = NULL;
+        ::theCommand = nullptr;
 
     } catch(Exception const & e) {
         std::cerr << "Exception:" << std::endl;
