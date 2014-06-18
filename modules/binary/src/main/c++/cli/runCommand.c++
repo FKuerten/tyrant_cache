@@ -79,8 +79,8 @@ namespace TyrantCache {
         {
             assertX(task.attacker);
             assertX(task.defender);
-            unsigned int const verbosity = this->configuration.verbosity;
-            if (verbosity == 0) {
+            int const verbosity = this->configuration.verbosity;
+            if (verbosity <= 0) {
                 std::cout << std::left
                           << std::setw(dw) << std::string(*task.attacker) << " "
                           << std::setw(dw) << std::string(*task.defender) << " "
