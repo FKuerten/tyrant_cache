@@ -1,6 +1,6 @@
 load_makefile modules/binary
 
-target/tyrantCache: modules/binary/target/tyrantCache
+target/tyrantCache: modules/binary/target/tyrantCache-static-debug
     @mkdir -p target
     cp ${input} ${output}
 
