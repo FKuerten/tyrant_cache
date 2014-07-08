@@ -1,6 +1,8 @@
 This is TyrantCache, a cli wrapper for the library tyrant-cache.
 
 This cli wrapper provides access to the library tyrant-cache, in addition we use a primitve pstream based interface to TyrantOptimize (not by me).
+In order to work you will need to have an executable named "tyrantOptimize" in your working directory.
+The "--version" switch will give you information on the versions of the cli wrapper and tyrantOptimize used.
 
 The cli interface is different from TyrantOptimize's (I would say: better), but the main feature is to cache results of the simulation.
 This is of course only of limited use for manual users, however the library tyrant-cache is intended to be used in optimizers.
